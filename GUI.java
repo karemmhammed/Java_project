@@ -1,19 +1,24 @@
 package gui;
 
+import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.skins.ModernSkin;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.Optional;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,9 +53,10 @@ public class GUI extends Application {
     
     boolean motorMode;
     boolean motorDirection;
+    int motorSpeed;
 	
 	
-	/***********/
+    /***********/
     /*  Music  */
     /***********/
     String uriString1;
@@ -78,6 +84,9 @@ public class GUI extends Application {
     /* Texts */
     /*********/
     Text startText;
+    Text aboutText;
+    Text aboutTextInLabel;
+    Text title;
     
     /***********/
     /* Buttons */
@@ -88,6 +97,10 @@ public class GUI extends Application {
     
     // Back Button
     Button backButton;
+    Button backButton2;
+    
+    // About Button
+    Button aboutButton;
     
     // ON/OFF Button
     Button onoffButton;
@@ -105,6 +118,7 @@ public class GUI extends Application {
     /**********/
     
     // Status Label
+    Label speedLabel;
     
     //----------------------------------------------------------------
     
@@ -113,7 +127,24 @@ public class GUI extends Application {
     /**********/
     
     // Speed Slider
+    Slider speedSlider;
     
+    //----------------------------------------------------------------
+    
+    /***********************/
+    /*       Gauge       */
+    /***********************/
+   
+    Gauge gauge;        
+    
+    //----------------------------------------------------------------
+    
+    /***********************/
+    /*       Effects       */
+    /***********************/
+    
+    Glow glow;
+        
     //----------------------------------------------------------------
     
     /***********************/
@@ -123,16 +154,24 @@ public class GUI extends Application {
     // Background
     Image startBackgroundImg;
     ImageView startBackgroundImgView;
+    ImageView startBackgroundImgView2;
     Image mainBackgroundImg;
     ImageView mainBackgroundImgView;
     
     // Symbols
     Image backButtonImg;
+    Image backButtonImg2;
     ImageView backButtonImgView;
+    ImageView backButtonImgView2;
 
     // GIFs 
     Image startGifImg;
     ImageView startGifImgView; 
+    ImageView startGifImgView2;
+    
+    // About Text Label
+    Image aboutTextLabel;
+    ImageView aboutTextLabelView;
     
     // ON/OFF Button
     Image onoffButtonImg;
@@ -168,6 +207,9 @@ public class GUI extends Application {
     // Main Pane
     StackPane mainPane;
     
+    // About Pane
+    StackPane aboutPane;
+    
     //----------------------------------------------------------------
     
     /**********/
@@ -179,6 +221,9 @@ public class GUI extends Application {
     
     // Main Scene
     Scene mainScene;
+    
+    // About Scene
+    Scene aboutScene;
     
     //----------------------------------------------------------------
     
@@ -198,7 +243,7 @@ public class GUI extends Application {
         motorMode = false;                  // Motor is initially off
         motorDirection = false;             // Motor is initially operating in Direction1 (Clockwise)
         
-		/***********/
+	/***********/
         /* Music*/
         /***********/
 		
@@ -206,13 +251,42 @@ public class GUI extends Application {
         player1 = new MediaPlayer(new Media(uriString1));
         uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
-        String uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
         
-         //----------------------------------------------------------------
+        //----------------------------------------------------------------
          
+        /***********************/
+        /*       Effects       */
+        /***********************/
+        
+        // Glow
+        glow = new Glow(3);
+        
+        //----------------------------------------------------------------
+        
+        /***********************/
+        /*       Gauge       */
+        /***********************/
+        
+        gauge = new Gauge();
+        gauge.setSkin(new ModernSkin(gauge));  //ModernSkin : you guys can change the skin
+        gauge.setUnit("Km/h");  //unit
+        gauge.setUnitColor(Color.WHITE);
+        gauge.setValueVisible(false);
+        gauge.setBarColor(Color.rgb(7, 137, 191));
+        gauge.setNeedleColor(Color.rgb(194, 1, 54));
+        gauge.setThresholdColor(Color.rgb(194, 1, 54));  //color will become red if it crosses threshold value
+        gauge.setThreshold(85);
+        gauge.setThresholdVisible(true);
+        gauge.setTickLabelColor(Color.WHITE);
+        gauge.setTickMarkColor(Color.WHITE);
+        gauge.setMaxSize(500, 500);
+
+        //----------------------------------------------------------------
+        
         /***********/
-        /* menu*/
+        /*   menu  */
         /***********/
         bar = new MenuBar();
         settings = new Menu("Settings");
@@ -221,56 +295,77 @@ public class GUI extends Application {
         About = new MenuItem("About");
         sound = new MenuItem("Mute sound");
         sound1 = new MenuItem("UnMute sound");
-		settings.getItems().addAll(sound,sound1);
+	settings.getItems().addAll(sound,sound1);
         file.getItems().addAll(exit,About);
         bar.getMenus().addAll(settings,file);
         bar.setTranslateY(-485);
         bar.setTranslateX(0);
-  
-		
-  
-		
+        
         /***********************/
         /* Images & ImageViews */
         /***********************/
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
         
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\mainBackground.png"));
+        startBackgroundImgView2 = new ImageView(startBackgroundImg);
+        startBackgroundImgView2.setFitHeight(1000);
+        startBackgroundImgView2.setFitWidth(1920);
+             
+        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
+        backButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
+        
+        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\backButton.png"));
+        backButtonImgView2 = new ImageView(backButtonImg);
+        backButtonImgView2.setFitHeight(50);
+        backButtonImgView2.setFitWidth(50);
+
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
+        startGifImgView.setEffect(glow);
+        
+        startGifImgView2 = new ImageView(startGifImg);
+        startGifImgView2.setFitHeight(350);
+        startGifImgView2.setFitWidth(350);
+        startGifImgView2.setTranslateX(550);
+        startGifImgView2.setTranslateY(300);
+        startGifImgView2.setEffect(glow);
+        
+        // About Text Label
+        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\main.png"));
+        aboutTextLabelView = new ImageView(aboutTextLabel);
+        aboutTextLabelView.setEffect(glow);
+        
         
         // ON/OFF Button
-        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffButton.png"));
+        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
         onoffButtonImgView.setFitHeight(50);
         onoffButtonImgView.setFitWidth(50);
         
         // Direction1 (Clockwise) Button
-        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir1Button.png"));
+        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
         dir1ButtonImgView.setFitHeight(50);
         dir1ButtonImgView.setFitWidth(50);
 
         // Direction2 (Anti-Clockwise) Button
-        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir2Button.png"));
+        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
         dir2ButtonImgView.setFitHeight(50);
         dir2ButtonImgView.setFitWidth(50);
@@ -285,6 +380,7 @@ public class GUI extends Application {
         startButton = new Button();
         startButton.setGraphic(startGifImgView);
         startButton.setStyle("-fx-background-color: transparent;");
+        startButton.setEffect(glow);
         
         // Back Button
         backButton = new Button();
@@ -292,7 +388,20 @@ public class GUI extends Application {
         backButton.setStyle("-fx-background-color: transparent;");
         backButton.setTranslateY(450);
         backButton.setTranslateX(-900);
-     
+        
+        // Back Button 2
+        backButton2 = new Button();
+        backButton2.setGraphic(backButtonImgView2);
+        backButton2.setStyle("-fx-background-color: transparent;");
+        backButton2.setTranslateY(450);
+        backButton2.setTranslateX(-900);
+        
+        // About Button
+        aboutButton = new Button();
+        aboutButton.setGraphic(startGifImgView2);
+        aboutButton.setStyle("-fx-background-color: transparent;");
+        aboutButton.setEffect(glow);
+        
         // ON/OFF Button
         onoffButton = new Button();
         onoffButton.setGraphic(onoffButtonImgView);
@@ -325,17 +434,46 @@ public class GUI extends Application {
         dir2Button.setTranslateX(-600);
 
         //----------------------------------------------------------------
-
-        /**********/
-        /* Labels */
-        /**********/
+        
+        /*********/
+        /* Texts */
+        /*********/
         
         // Start Label
         startText = new Text("Start");
         startText.setFont(Font.font("Verdana", 40));
         startText.setFill(Color.WHITE);
-
+        
+        
+        // About Text
+        aboutText = new Text("ABOUT");
+        aboutText.setFont(Font.font("Verdana", 20));
+        aboutText.setFill(Color.WHITE);
+        aboutText.setTranslateX(550);
+        aboutText.setTranslateY(300);
+        
+        // About Text Inside The Label
+        aboutTextInLabel = new Text("Bla Bla Bla");
+        aboutTextInLabel.setFont(Font.font("Verdana", 40));
+        aboutTextInLabel.setStyle("-fx-color: #040112;");
+        
+        // Title
+        title = new Text("MOTOR CONTROLLER");
+        title.setFont(Font.font("Verdana", 45));
+        title.setFill(Color.WHITE);
+        title.setTranslateY(-440);
+        title.setEffect(glow);
+        
+        /**********/
+        /* Labels */
+        /**********/
+        
         // Status Label
+        speedLabel = new Label("0");
+        speedLabel.setTextFill(Color.WHITE);
+        speedLabel.setFont(Font.font("Arial", 100));
+        speedLabel.setCache(true);
+        speedLabel.setEffect(glow);
 
         //----------------------------------------------------------------
 
@@ -344,6 +482,13 @@ public class GUI extends Application {
         /**********/
 
         // Speed Slider
+        speedSlider = new Slider();
+        speedSlider.setMin(0);
+        speedSlider.setMax(100);
+        speedSlider.setValue(0);
+        speedSlider.setShowTickMarks(true);
+        speedSlider.setMaxWidth(500);
+        speedSlider.setTranslateY(396);
 
         //----------------------------------------------------------------
 
@@ -365,16 +510,29 @@ public class GUI extends Application {
         startPane = new StackPane();
         startPane.getChildren().add(startBackgroundImgView);
         startPane.getChildren().add(startText);
+        startPane.getChildren().add(aboutButton);
         startPane.getChildren().add(startButton);
+        startPane.getChildren().add(aboutText);
     
         // Main Pane
         mainPane = new StackPane();
         mainPane.getChildren().add(mainBackgroundImgView);
+        mainPane.getChildren().add(speedSlider);
+        mainPane.getChildren().add(gauge);
+        mainPane.getChildren().add(speedLabel);
         mainPane.getChildren().add(backButton);
         mainPane.getChildren().add(onoffButton);
         mainPane.getChildren().add(dir1Button);
         mainPane.getChildren().add(dir2Button);
-		mainPane.getChildren().add(bar);
+	mainPane.getChildren().add(bar);
+        mainPane.getChildren().add(title);
+        
+        // About Pane
+        aboutPane = new StackPane();
+        aboutPane.getChildren().add(startBackgroundImgView2);
+        aboutPane.getChildren().add(backButton2);
+        aboutPane.getChildren().add(aboutTextLabelView);
+        aboutPane.getChildren().add(aboutTextInLabel);
 
         //----------------------------------------------------------------
         
@@ -385,7 +543,9 @@ public class GUI extends Application {
         // Start Scene
         startScene = new Scene(startPane, 1920, 1000);
         
-    
+        // About Scene
+        aboutScene = new Scene(aboutPane, 1920, 1000);
+           
         // Main Scene
         mainScene = new Scene(mainPane, 1920, 1000);
         
@@ -410,12 +570,24 @@ public class GUI extends Application {
             stage.show();
         });
         
+        // About Button
+        aboutButton.setOnAction((ActionEvent event) -> {
+            stage.setScene(aboutScene);
+            stage.show();
+        });
+        
         // Back Button
         backButton.setOnAction((ActionEvent event) -> {
             stage.setScene(startScene);
             stage.show();
         });
 
+        // Back Button 2
+        backButton2.setOnAction((ActionEvent event) -> {
+            stage.setScene(startScene);
+            stage.show();
+        });
+        
         // ON/OFF Button
         onoffButton.setOnAction((ActionEvent event) -> {
             if(motorMode==false)
@@ -468,9 +640,9 @@ public class GUI extends Application {
             }
         });
 		
-		//----------------------------------------------------------------
+        //----------------------------------------------------------------
 		
-		   // TO UNMUTE SOUND
+        // TO UNMUTE SOUND
         
         sound1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -481,13 +653,13 @@ public class GUI extends Application {
             }
         });
 		
-		//----------------------------------------------------------------
+	//----------------------------------------------------------------
 		
-		 // EXIT ALERT
+	 // EXIT ALERT
         
-            exit.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
+        exit.setOnAction(new EventHandler<ActionEvent>(){
+        @Override
+           public void handle(ActionEvent event) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation message");
             alert.setHeaderText("Exit!");
@@ -495,28 +667,30 @@ public class GUI extends Application {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
             stage.close();
-}
+            }
             else {}
 
             }
        
         });
         
-        
-    
-        
         /******************/
         /* Slider Handler */
         /******************/
 
         // Speed Slider
+        speedSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            motorSpeed = newValue.intValue();
+            speedLabel.setText("" + motorSpeed + "");
+            gauge.setValue(motorSpeed);
+        });
         
         //----------------------------------------------------------------
         
         /*****************/
         /* Scene & Stage */
         /*****************/
-        stage.setTitle("Motor");
+        stage.setTitle("Motor Controller");
         stage.setResizable(false);
         stage.setScene(startScene);
         stage.show();
