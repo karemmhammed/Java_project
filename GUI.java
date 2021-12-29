@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -31,11 +32,17 @@ public class GUI extends Application {
     /******************** Variables Declarations ********************/
     /****************************************************************/
     
-    /***********/
-    /*  Text   */
-    /***********/
-    Text startText;
+    /*****************************/
+    /* Flags & Numeric Variables */
+    /*****************************/
     
+    boolean motorMode;
+    boolean motorDirection;
+    
+    /*********/
+    /* Texts */
+    /*********/
+    Text startText;
     
     /***********/
     /* Buttons */
@@ -48,10 +55,13 @@ public class GUI extends Application {
     Button backButton;
     
     // ON/OFF Button
+    Button onoffButton;
     
     // Direction1 (Clockwise) Button
+    Button dir1Button;
     
     // Direction2 (Anti-Clockwise) Button
+    Button dir2Button;
     
     //----------------------------------------------------------------
     
@@ -88,6 +98,19 @@ public class GUI extends Application {
     // GIFs 
     Image startGifImg;
     ImageView startGifImgView; 
+    
+    // ON/OFF Button
+    Image onoffButtonImg;
+    ImageView onoffButtonImgView;
+    
+    // Direction1 (Clockwise) Button
+    Image dir1ButtonImg;
+    ImageView dir1ButtonImgView;
+    
+    // Direction2 (Anti-Clockwise) Button
+    Image dir2ButtonImg;
+    ImageView dir2ButtonImgView;
+    
     //----------------------------------------------------------------
     
     /**************/
@@ -131,34 +154,58 @@ public class GUI extends Application {
     @Override
     public void init() throws FileNotFoundException{
         
+        /*****************************/
+        /* Flags & Numeric Variables */
+        /*****************************/
+
+        motorMode = false;                  // Motor is initially off
+        motorDirection = false;             // Motor is initially operating in Direction1 (Clockwise)
+        
         /***********************/
         /* Images & ImageViews */
         /***********************/
-        
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
         
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\mainBackground.png"));
+        mainBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\backButton.png"));
+        backButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
+        
+        // ON/OFF Button
+        onoffButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/onoffButton.png"));
+        onoffButtonImgView = new ImageView(onoffButtonImg);
+        onoffButtonImgView.setFitHeight(50);
+        onoffButtonImgView.setFitWidth(50);
+        
+        // Direction1 (Clockwise) Button
+        dir1ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/dir1Button.png"));
+        dir1ButtonImgView = new ImageView(dir1ButtonImg);
+        dir1ButtonImgView.setFitHeight(50);
+        dir1ButtonImgView.setFitWidth(50);
 
+        // Direction2 (Anti-Clockwise) Button
+        dir2ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/dir2Button.png"));
+        dir2ButtonImgView = new ImageView(dir2ButtonImg);
+        dir2ButtonImgView.setFitHeight(50);
+        dir2ButtonImgView.setFitWidth(50);
+        
         //----------------------------------------------------------------
         
         /***********/
@@ -176,13 +223,37 @@ public class GUI extends Application {
         backButton.setStyle("-fx-background-color: transparent;");
         backButton.setTranslateY(450);
         backButton.setTranslateX(-900);
-        
      
         // ON/OFF Button
+        onoffButton = new Button();
+        onoffButton.setGraphic(onoffButtonImgView);
+        onoffButton.setStyle("-fx-background-color: transparent;");
+        Glow onoffButtonGlow = new Glow();
+        onoffButtonGlow.setLevel(0.9);
+        onoffButton.setEffect(onoffButtonGlow);
+        onoffButton.setTranslateY(0);
+        onoffButton.setTranslateX(-600);
+        
 
         // Direction1 (Clockwise) Button
+        dir1Button = new Button();
+        dir1Button.setGraphic(dir1ButtonImgView);
+        dir1Button.setStyle("-fx-background-color: transparent;");
+        Glow dir1ButtonGlow = new Glow();
+        dir1ButtonGlow.setLevel(0.9);
+        dir1Button.setEffect(dir1ButtonGlow);
+        dir1Button.setTranslateY(100);
+        dir1Button.setTranslateX(-600);
 
         // Direction2 (Anti-Clockwise) Button
+        dir2Button = new Button();
+        dir2Button.setGraphic(dir2ButtonImgView);
+        dir2Button.setStyle("-fx-background-color: transparent;");
+        Glow dir2ButtonGlow = new Glow();
+        dir2ButtonGlow.setLevel(0.9);
+        dir2Button.setEffect(dir2ButtonGlow);
+        dir2Button.setTranslateY(200);
+        dir2Button.setTranslateX(-600);
 
         //----------------------------------------------------------------
 
@@ -231,6 +302,9 @@ public class GUI extends Application {
         mainPane = new StackPane();
         mainPane.getChildren().add(mainBackgroundImgView);
         mainPane.getChildren().add(backButton);
+        mainPane.getChildren().add(onoffButton);
+        mainPane.getChildren().add(dir1Button);
+        mainPane.getChildren().add(dir2Button);
 
         //----------------------------------------------------------------
         
@@ -273,10 +347,40 @@ public class GUI extends Application {
         });
 
         // ON/OFF Button
-
+        onoffButton.setOnAction((ActionEvent event) -> {
+            if(motorMode==false)
+            {
+                motorMode = true;
+            }
+            else
+            {
+                motorMode = false;
+            }
+        });
+        
         // Direction1 (Clockwise) Button
-
+        dir1Button.setOnAction((ActionEvent event) -> {
+            if(motorDirection==true)
+            {
+                motorDirection = false;
+            }
+            else
+            {
+                // Do Nothing
+            }
+        });
+        
         // Direction2 (Anti-Clockwise) Button
+        dir2Button.setOnAction((ActionEvent event) -> {
+            if(motorDirection==false)
+            {
+                motorDirection = true;
+            }
+            else
+            {
+                // Do Nothing
+            }
+        });
         
         //----------------------------------------------------------------
         
@@ -304,8 +408,7 @@ public class GUI extends Application {
 
     /****************************************************************/
     /************************ Main Function *************************/
-    /**
-     * @param args**************************************************************/
+    /****************************************************************/
     
     public static void main(String[] args) {
         Application.launch(args);
