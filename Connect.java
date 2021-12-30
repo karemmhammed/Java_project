@@ -10,6 +10,10 @@
  ********************************************************************/
 
 
+import com.fazecast.jSerialComm.*;
+
+
+package ConnectionPack;
 
 
 
@@ -28,10 +32,16 @@ public class Connect {
     /* Motor State */
     /***************/
 	
+	
+    
+    
+	
+	
 	//Motor_On
+    private final int MOTOR_ON  = 252;
 	
 	//Motor_Of
-	
+	private final int MOTOR_OFF = 253;
 	
   //----------------------------------------------------------------	
 	
@@ -41,9 +51,10 @@ public class Connect {
 	/*******************/
 	
 	//Motor_Clk_Wise
+	private final int MOTOR_CLK_WISE=255;
 	
 	//Motor_Anti_Clk_Wise
-	
+	private final int MOTOR_ANTICLK_WISE=254;
 	
   //----------------------------------------------------------------	
 	
@@ -53,6 +64,7 @@ public class Connect {
 	/***********************/
 	
 	//Communication Port
+	SerialPort comPort;
 	
 	//Output Stream
 
@@ -67,7 +79,9 @@ public class Connect {
 	 *
      */
     public void Connect(){
-        
+        comPort = SerialPort.getCommPort("COM5");
+        comPort.openPort();
+        comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 		
     }
 	
@@ -80,7 +94,10 @@ public class Connect {
      *
      */
     public void motorStateArduino(boolean state){
-       
+       if(state == true)
+            sendData(MOTOR_ON);
+        else
+            sendData(MOTOR_OFF);
 	   
     }
 	
@@ -94,7 +111,10 @@ public class Connect {
      *
      */
     public void motorDirectionArduino(boolean direction){
-        
+        if(direction == true)
+            sendData(MOTOR_CLK_WISE);
+        else
+            sendData(MOTOR_ANTICLK_WISE);
 		
     }
 	
@@ -119,6 +139,6 @@ public class Connect {
      */
     public int readData(){
          
-		 
+		return 0;
     }
 }
