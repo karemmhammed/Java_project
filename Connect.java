@@ -67,9 +67,9 @@ public class Connect {
 	SerialPort comPort;
 	
 	//Output Stream
-
+	OutputStream out;
 	//Input Stream
-	
+	InputStream in ;
 	
   //----------------------------------------------------------------
   
@@ -126,10 +126,17 @@ public class Connect {
      *
      */
     public void sendData(int data){
-        
+        out = comPort.getOutputStream();
+        try {
+            out.write(data);
+            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+           
+            
+        }
         
     }
-	
 	
     /**
 	 *	read data from the arduino 
@@ -138,7 +145,15 @@ public class Connect {
      *
      */
     public int readData(){
-         
-		return 0;
+        int data = 0;
+        comPort.getInputStream();
+        try {
+           data= in.read();
+           in.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+     return data;   
     }
 }
