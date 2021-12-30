@@ -54,6 +54,9 @@ public class GUI extends Application {
     boolean motorMode;
     boolean motorDirection;
     int motorSpeed;
+	 boolean Flag_Mute;
+         boolean mediaFlag=true;
+         
 	
 	
     /***********/
@@ -247,13 +250,8 @@ public class GUI extends Application {
         /* Music*/
         /***********/
 		
-        uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed.mp3").toURI().toString();
-        player1 = new MediaPlayer(new Media(uriString1));
-        uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
-        player2 = new MediaPlayer(new Media(uriString2));
-        uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
-        player3 = new MediaPlayer(new Media(uriString3));
-        
+   
+      
         //----------------------------------------------------------------
          
         /***********************/
@@ -306,7 +304,7 @@ public class GUI extends Application {
         /***********************/
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
@@ -315,25 +313,25 @@ public class GUI extends Application {
         startBackgroundImgView2.setFitHeight(1000);
         startBackgroundImgView2.setFitWidth(1920);
              
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\mainBackground.png"));
+        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\backButton.png"));
+        backButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
         
-        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\backButton.png"));
+        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
         backButtonImgView2 = new ImageView(backButtonImg);
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
 
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
@@ -347,25 +345,25 @@ public class GUI extends Application {
         startGifImgView2.setEffect(glow);
         
         // About Text Label
-        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\main.png"));
+        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\main.png"));
         aboutTextLabelView = new ImageView(aboutTextLabel);
         aboutTextLabelView.setEffect(glow);
         
         
         // ON/OFF Button
-        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\onoffButton.png"));
+        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
         onoffButtonImgView.setFitHeight(50);
         onoffButtonImgView.setFitWidth(50);
         
         // Direction1 (Clockwise) Button
-        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\dir1Button.png"));
+        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
         dir1ButtonImgView.setFitHeight(50);
         dir1ButtonImgView.setFitWidth(50);
 
         // Direction2 (Anti-Clockwise) Button
-        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project\\Attachments\\dir2Button.png"));
+        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
         dir2ButtonImgView.setFitHeight(50);
         dir2ButtonImgView.setFitWidth(50);
@@ -603,29 +601,41 @@ public class GUI extends Application {
         
         // Direction1 (Clockwise) Button
         dir1Button.setOnAction((ActionEvent event) -> {
+     
+        String uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
+        player3 = new MediaPlayer(new Media(uriString3));
             if(motorDirection==true)
             {
                 motorDirection = false;
-				player3.play();
             }
             else
             {
                 // Do Nothing
             }
+              if(Flag_Mute== false){ 
+                    player3.play();
+                }
         });
         
-        // Direction2 (Anti-Clockwise) Button
+         // Direction2 (Anti-Clockwise) Button
         dir2Button.setOnAction((ActionEvent event) -> {
+      
+        uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
+        player2 = new MediaPlayer(new Media(uriString2));
+      
             if(motorDirection==false)
             {
                 motorDirection = true;
-				player2.play();
-            }
+           }
             else
             {
                 // Do Nothing
             }
+            if(Flag_Mute== false){ 
+                    player2.play();
+                }
         });
+        
         
         //----------------------------------------------------------------
 		  
@@ -634,22 +644,19 @@ public class GUI extends Application {
         sound.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                player1.setVolume(0);
-                player2.setVolume(0);
-                player3.setVolume(0);
+               Flag_Mute= true;
+               
             }
         });
-		
         //----------------------------------------------------------------
 		
         // TO UNMUTE SOUND
         
-        sound1.setOnAction(new EventHandler<ActionEvent>() {
+         sound1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                player1.setVolume(50);
-                player2.setVolume(50);
-                player3.setVolume(50);
+                Flag_Mute= false;
+                
             }
         });
 		
@@ -683,6 +690,24 @@ public class GUI extends Application {
             motorSpeed = newValue.intValue();
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
+                 uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed.mp3").toURI().toString();
+                    player1 = new MediaPlayer(new Media(uriString1));
+                    
+             if(motorSpeed>85 && mediaFlag == true){
+                    mediaFlag=false;
+                  
+                  
+                  if(Flag_Mute== false){ 
+                    player1.play();
+                }
+                                    
+                   
+                }
+                else if (motorSpeed<=85){
+                   mediaFlag = true;
+                }
+                         
+                         
         });
         
         //----------------------------------------------------------------
