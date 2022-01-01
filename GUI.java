@@ -131,6 +131,9 @@ public class GUI extends Application {
     // Direction Status Label
     Label dirStatusLabel;
     
+    // ON/OFF Status Label
+    Label onoffStatusLabel;
+    
     //----------------------------------------------------------------
     
     /**********/
@@ -199,6 +202,10 @@ public class GUI extends Application {
     // Direction Status Label
     Image dirStatusLabelImg;
     ImageView dirStatusLabelImgView;
+    
+    // ON/OFF Status Label
+    Image onoffStatusLabelImg;
+    ImageView onoffStatusLabelImgView;
     
     //----------------------------------------------------------------
     
@@ -367,8 +374,8 @@ public class GUI extends Application {
         // ON/OFF Button
         onoffButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
-        onoffButtonImgView.setFitHeight(50);
-        onoffButtonImgView.setFitWidth(50);
+        onoffButtonImgView.setFitHeight(25);
+        onoffButtonImgView.setFitWidth(25);
         
         // Direction1 (Clockwise) Button
         dir1ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir1Button.png"));
@@ -388,6 +395,14 @@ public class GUI extends Application {
         dirStatusLabelImgView.setFitHeight(100);
         dirStatusLabelImgView.setFitWidth(400);
         dirStatusLabelImgView.setTranslateX(-650);
+        
+        // ON/OFF Status Label
+        onoffStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffStatusLabel.png"));
+        onoffStatusLabelImgView = new ImageView(onoffStatusLabelImg);
+        onoffStatusLabelImgView.setFitHeight(125);
+        onoffStatusLabelImgView.setFitWidth(125);
+        onoffStatusLabelImgView.setTranslateX(-650);
+        onoffStatusLabelImgView.setTranslateY(125);
         
         
         //----------------------------------------------------------------
@@ -429,8 +444,8 @@ public class GUI extends Application {
         Glow onoffButtonGlow = new Glow();
         onoffButtonGlow.setLevel(0.9);
         onoffButton.setEffect(onoffButtonGlow);
-        onoffButton.setTranslateY(200);
-        onoffButton.setTranslateX(-600);
+        onoffButton.setTranslateY(180);
+        onoffButton.setTranslateX(-655);
         
 
         // Direction1 (Clockwise) Button
@@ -511,11 +526,20 @@ public class GUI extends Application {
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
         dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 25));
-        dirStatusLabel.setTextAlignment(TextAlignment.CENTER);
-        dirStatusLabel.setCache(true);
+        dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
         dirStatusLabel.setPrefHeight(35);
         dirStatusLabel.setAlignment(Pos.CENTER);
+        
+        // ON/OFF Status Label
+        onoffStatusLabel = new Label("OFF");
+        onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 25));
+        onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
+        onoffStatusLabel.setTranslateX(-645);
+        onoffStatusLabel.setTranslateY(120);
+        onoffStatusLabel.setPrefHeight(35);
+        onoffStatusLabel.setAlignment(Pos.CENTER);
 
         //----------------------------------------------------------------
 
@@ -558,6 +582,8 @@ public class GUI extends Application {
         mainPane.getChildren().add(title);
         mainPane.getChildren().add(dirStatusLabelImgView);
         mainPane.getChildren().add(dirStatusLabel);
+        mainPane.getChildren().add(onoffStatusLabelImgView);
+        mainPane.getChildren().add(onoffStatusLabel);
         
         // About Pane
         aboutPane = new StackPane();
@@ -625,11 +651,12 @@ public class GUI extends Application {
             if(motorMode==false)
             {
                 motorMode = true;
-				
+                onoffStatusLabel.setText("ON");
             }
             else
             {
                 motorMode = false;
+                onoffStatusLabel.setText("OFF");
             }
         });
         
@@ -642,6 +669,8 @@ public class GUI extends Application {
             {
                 motorDirection = false;
                 dirStatusLabel.setText("Clockwise");
+                directionRotate1.play();
+                directionRotate2.stop();
             }
             else
             {
@@ -662,6 +691,8 @@ public class GUI extends Application {
             {
                 motorDirection = true;
                 dirStatusLabel.setText("Anti-Clockwise");
+                directionRotate1.stop();
+                directionRotate2.play();
            }
             else
             {
@@ -754,7 +785,6 @@ public class GUI extends Application {
         
         // Direction1 Button Rotation
         directionRotate1.play();
-        directionRotate2.play();
         
         //----------------------------------------------------------------
         
@@ -765,8 +795,6 @@ public class GUI extends Application {
         stage.setResizable(false);
         stage.setScene(startScene);
         stage.show();
-        
-        
         
         //----------------------------------------------------------------
         
