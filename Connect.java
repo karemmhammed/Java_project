@@ -84,10 +84,16 @@ public class Connect {
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
      
     }
-    /*public boolean checkConnection(){
-       return comPort.openPort();
-    }*/
     
+    /**
+     * Check the Connection 
+     * 
+     * @return Connection state
+     */
+    public boolean checkConnection(){
+       return comPort.openPort();
+    }
+   
     
     
     /**

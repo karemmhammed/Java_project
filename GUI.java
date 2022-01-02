@@ -19,8 +19,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -645,6 +648,10 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) {
         
+        
+        connectionTask();
+        
+        
         /********************/
         /* Buttons Handlers */
         /********************/
@@ -847,6 +854,57 @@ public class GUI extends Application {
         
     }
 
+    
+    
+    public void connectionTask(){
+        Runnable task = new Runnable(){
+            @Override
+            public void run() {
+                while(true){
+                    runTask();
+                }
+            }
+        };
+        Thread backGround = new Thread(task);
+        backGround.start();
+    }
+    
+    public void runTask(){
+        
+
+        while(connection.checkConnection()){
+            
+        }
+        
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                 Alert alert = new Alert(Alert.AlertType.WARNING);
+                 alert.showAndWait();
+                 connection = new Connect();
+            }
+        
+        });
+        
+        while(!connection.checkConnection()){
+            
+        }
+       
+        
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+                 connection.motorDirectionArduino(motorDirection);
+                 connection.motorStateArduino(motorMode);
+                 connection.sendData(sliderSpeed);
+          
+        
+    }
+    
+    
     /****************************************************************/
     /************************ Main Function *************************/
     /****************************************************************/
