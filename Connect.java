@@ -9,6 +9,9 @@
 			Osama Hamdy
  ********************************************************************/
 
+package guipack;
+
+
 
 import com.fazecast.jSerialComm.*;
 import java.io.IOException;
@@ -17,7 +20,6 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-package ConnectionPack;
 
 
 
@@ -32,65 +34,63 @@ public class Connect {
   /******************** Variables Declarations ********************/
   /****************************************************************/  
   
-	/***************/
+    /***************/
     /* Motor State */
     /***************/
-	
-	
     
-    
-	
-	
-	//Motor_On
+    //Motor_On
     private final int MOTOR_ON  = 252;
+     
+    //Motor Off
+    private final int MOTOR_OFF = 253;
+   
+    //----------------------------------------------------------------
+    
+    /*******************/
+    /* Motor Direction */
+    /*******************/
+    
+    //Motor_Clk_Wise
+    private final int MOTOR_CLK_WISE=255;
+    
+    //Motor_Anti_Clk_Wise
+    private final int MOTOR_ANTICLK_WISE=254;
+    
+    //----------------------------------------------------------------	
+    
+    /***********************/
+    /* Serial Comm Objects */
+    /***********************/
 	
-	//Motor_Of
-	private final int MOTOR_OFF = 253;
-	
-  //----------------------------------------------------------------	
-	
-	
-	/*******************/
-	/* Motor Direction */
-	/*******************/
-	
-	//Motor_Clk_Wise
-	private final int MOTOR_CLK_WISE=255;
-	
-	//Motor_Anti_Clk_Wise
-	private final int MOTOR_ANTICLK_WISE=254;
-	
-  //----------------------------------------------------------------	
-	
-	
-	/***********************/
-	/* Serial Comm Objects */
-	/***********************/
-	
-	//Communication Port
-	SerialPort comPort;
-	
-	//Output Stream
-	OutputStream out;
-	//Input Stream
-	InputStream in ;
-	
-  //----------------------------------------------------------------
-  
-  
-   /**
+    //Communication Port
+    SerialPort comPort;
+    
+    //Output Stream
+    OutputStream out;
+    
+    //Input Stream
+    InputStream in ;
+    
+    //----------------------------------------------------------------
+    
+    
+     /**
      * public constructor used to start the serial communication 
 	 *
      */
-    public void Connect(){
+    public Connect(){
         comPort = SerialPort.getCommPort("COM5");
         comPort.openPort();
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-		
+     
     }
-	
-	
-	/**
+    /*public boolean checkConnection(){
+       return comPort.openPort();
+    }*/
+    
+    
+    
+    /**
 	 *	call the {sendData} method to send the state of the motor to the arduino
 	 *	
      * @param   state        Motor state
@@ -98,15 +98,14 @@ public class Connect {
      *
      */
     public void motorStateArduino(boolean state){
-       if(state == true)
+        if(state == true)
             sendData(MOTOR_ON);
         else
             sendData(MOTOR_OFF);
-	   
     }
-	
-	
-	/**
+    
+    
+    /**
 	 *	call the {sendData} method to send the rotation direction of the motor to 
 	 *	the arduino
 	 *	
@@ -119,11 +118,10 @@ public class Connect {
             sendData(MOTOR_CLK_WISE);
         else
             sendData(MOTOR_ANTICLK_WISE);
-		
     }
-	
-	
-	/**
+    
+    
+    /**
 	 *	send the data to the arduino 
 	 *	
      * @param   data        data send to the arduino.
@@ -141,7 +139,8 @@ public class Connect {
         }
         
     }
-	
+    
+    
     /**
 	 *	read data from the arduino 
 	 *	
@@ -160,4 +159,5 @@ public class Connect {
        
      return data;   
     }
+    
 }

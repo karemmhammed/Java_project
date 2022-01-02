@@ -1,4 +1,17 @@
-package gui;
+/********************************************************************
+ * Project: Motor Controller
+ * Description:
+ * 
+ * 
+ * 
+ * Version 1.0
+ * @authors Karim Mohammed
+ *          Sarah Yasser
+ *          Joseph Girgis 
+ ********************************************************************/
+
+
+package guipack;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -35,17 +48,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/********************************************************************
- * Project: Motor Controller
- * Description:
- * 
- * 
- * 
- * Version 1.0
- * @authors Karim Mohammed
- *          Sarah Yasser
- *          Joseph Girgis 
- ********************************************************************/
+
 public class GUI extends Application {
     
     /****************************************************************/
@@ -59,8 +62,9 @@ public class GUI extends Application {
     boolean motorMode;
     boolean motorDirection;
     int motorSpeed;
-	 boolean Flag_Mute;
-         boolean mediaFlag=true;
+    int sliderSpeed;
+    boolean Flag_Mute;
+    boolean mediaFlag=true;
          
 	
 	
@@ -253,6 +257,11 @@ public class GUI extends Application {
     
     //----------------------------------------------------------------
     
+    // Connection class
+    Connect connection;
+    
+    //----------------------------------------------------------------
+    
     /****************************************************************/
     /************************ Initialization ************************/
     /****************************************************************/
@@ -268,17 +277,19 @@ public class GUI extends Application {
 
         motorMode = false;                  // Motor is initially off
         motorDirection = false;             // Motor is initially operating in Direction1 (Clockwise)
+        motorSpeed = 0;                     
+        sliderSpeed = 0;
         
 	/***********/
         /* Music*/
         /***********/
-         uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
+         uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
        
-        uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
        
-        uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed.mp3").toURI().toString();
+        uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
         player1 = new MediaPlayer(new Media(uriString1));
 		
    
@@ -335,7 +346,7 @@ public class GUI extends Application {
         /***********************/
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
@@ -344,27 +355,27 @@ public class GUI extends Application {
         startBackgroundImgView2.setFitHeight(1000);
         startBackgroundImgView2.setFitWidth(1920);
              
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\mainBackground.png"));
+        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
+        backButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
         
-        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
+        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\backButton.png"));
         backButtonImgView2 = new ImageView(backButtonImg);
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
         
-        icon = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\Icon.png"));
+        icon = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\Icon.png"));
 
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
@@ -378,38 +389,38 @@ public class GUI extends Application {
         startGifImgView2.setEffect(glow);
         
         // About Text Label
-        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\main.png"));
+        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\main.png"));
         aboutTextLabelView = new ImageView(aboutTextLabel);
         aboutTextLabelView.setEffect(glow);
         
         
         // ON/OFF Button
-        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffButton.png"));
+        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
         onoffButtonImgView.setFitHeight(25);
         onoffButtonImgView.setFitWidth(25);
         
         // Direction1 (Clockwise) Button
-        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir1Button.png"));
+        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
         dir1ButtonImgView.setFitHeight(25);
         dir1ButtonImgView.setFitWidth(25);
 
         // Direction2 (Anti-Clockwise) Button
-        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir2Button.png"));
+        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
         dir2ButtonImgView.setFitHeight(25);
         dir2ButtonImgView.setFitWidth(25);
         
         // Direction Status Label
-        dirStatusLabelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\directionStatusLabel.png"));
+        dirStatusLabelImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\directionStatusLabel.png"));
         dirStatusLabelImgView = new ImageView(dirStatusLabelImg);
         dirStatusLabelImgView.setFitHeight(100);
         dirStatusLabelImgView.setFitWidth(400);
         dirStatusLabelImgView.setTranslateX(-650);
         
         // ON/OFF Status Label
-        onoffStatusLabelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffStatusLabel.png"));
+        onoffStatusLabelImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\onoffStatusLabel.png"));
         onoffStatusLabelImgView = new ImageView(onoffStatusLabelImg);
         onoffStatusLabelImgView.setFitHeight(125);
         onoffStatusLabelImgView.setFitWidth(125);
@@ -537,7 +548,7 @@ public class GUI extends Application {
         // Direction Status Label
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
-        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\body.ttf")), 25));
+        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 25));
         dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
         dirStatusLabel.setPrefHeight(35);
@@ -546,7 +557,7 @@ public class GUI extends Application {
         // ON/OFF Status Label
         onoffStatusLabel = new Label("OFF");
         onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
-        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\body.ttf")), 25));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 25));
         onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
         onoffStatusLabel.setTranslateX(-645);
         onoffStatusLabel.setTranslateY(120);
@@ -562,7 +573,7 @@ public class GUI extends Application {
         // Speed Slider
         speedSlider = new Slider();
         speedSlider.setMin(0);
-        speedSlider.setMax(100);
+        speedSlider.setMax(251);
         speedSlider.setValue(0);
         speedSlider.setShowTickMarks(true);
         speedSlider.setMaxWidth(500);
@@ -622,6 +633,9 @@ public class GUI extends Application {
         
         //----------------------------------------------------------------
         
+        // Initialize refrence to Connect Class
+        connection = new Connect();
+        
     }
           
     /****************************************************************/
@@ -671,21 +685,25 @@ public class GUI extends Application {
                 motorMode = false;
                 onoffStatusLabel.setText("OFF");
             }
+            
+            connection.motorStateArduino(motorMode);
         });
         
         // Direction1 (Clockwise) Button
         dir1Button.setOnAction((ActionEvent event) -> {
-            player3.stop();
-     
-        String uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
-        player3 = new MediaPlayer(new Media(uriString3));
         player3.stop();
+     
+        String uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
+        player3 = new MediaPlayer(new Media(uriString3));
+        
             if(motorDirection==true)
             {
                 motorDirection = false;
                 dirStatusLabel.setText("Clockwise");
                 directionRotate1.play();
                 directionRotate2.stop();
+                
+                connection.motorDirectionArduino(motorDirection);
             }
             else
             {
@@ -702,7 +720,7 @@ public class GUI extends Application {
         dir2Button.setOnAction((ActionEvent event) -> {
             
        player2.stop();
-        uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
+        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
         
       
@@ -712,6 +730,8 @@ public class GUI extends Application {
                 dirStatusLabel.setText("Anti-Clockwise");
                 directionRotate1.stop();
                 directionRotate2.play();
+                
+                connection.motorDirectionArduino(motorDirection);
            }
             else
             {
@@ -775,10 +795,13 @@ public class GUI extends Application {
 
         // Speed Slider
         speedSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            motorSpeed = newValue.intValue();
+            sliderSpeed = newValue.intValue();
+            connection.sendData(sliderSpeed);
+            motorSpeed= (int) (sliderSpeed/2.5);
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
-                 uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed2.mp3").toURI().toString();
+            
+                 uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
                     player1 = new MediaPlayer(new Media(uriString1));
                     
              if(motorSpeed>85 && mediaFlag == true){
