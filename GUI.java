@@ -177,6 +177,8 @@ public class GUI extends Application {
     Image backButtonImg2;
     ImageView backButtonImgView;
     ImageView backButtonImgView2;
+    
+    Image icon;
 
     // GIFs 
     Image startGifImg;
@@ -290,7 +292,7 @@ public class GUI extends Application {
         
         gauge = new Gauge();
         gauge.setSkin(new ModernSkin(gauge));  //ModernSkin : you guys can change the skin
-        gauge.setUnit("Km/h");  //unit
+        gauge.setUnit("Rpm");  //unit
         gauge.setUnitColor(Color.WHITE);
         gauge.setValueVisible(false);
         gauge.setBarColor(Color.rgb(7, 137, 191));
@@ -349,6 +351,8 @@ public class GUI extends Application {
         backButtonImgView2 = new ImageView(backButtonImg);
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
+        
+        icon = new Image(new FileInputStream("C:\\Users\\Sarah\\Documents\\Java_project1\\Attachments\\Images\\Icon.png"));
 
 
         // GIFs 
@@ -555,6 +559,7 @@ public class GUI extends Application {
         speedSlider.setShowTickMarks(true);
         speedSlider.setMaxWidth(500);
         speedSlider.setTranslateY(396);
+        speedSlider.setEffect(glow);
 
         /*********/
         /* Panes */
@@ -792,6 +797,7 @@ public class GUI extends Application {
         /* Scene & Stage */
         /*****************/
         stage.setTitle("Motor Controller");
+        stage.getIcons().add(icon);
         stage.setResizable(false);
         stage.setScene(startScene);
         stage.show();
