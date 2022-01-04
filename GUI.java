@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -40,6 +41,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -64,10 +66,12 @@ public class GUI extends Application {
     
     boolean motorMode;
     boolean motorDirection;
-    int motorSpeed;
-    int sliderSpeed;
     boolean Flag_Mute;
     boolean mediaFlag=true;
+    int motorSpeed;
+    int sliderSpeed;
+    private double warningSignOpacity = 0.5;
+    
          
 	
 	
@@ -102,6 +106,7 @@ public class GUI extends Application {
     Text aboutText;
     Text aboutTextInLabel;
     Text title;
+    Text greetingText;
     
     /***********/
     /* Buttons */
@@ -185,12 +190,21 @@ public class GUI extends Application {
     ImageView backButtonImgView;
     ImageView backButtonImgView2;
     
-    Image icon;
+    Image iconImg;
+    
+    Image warningImg;
+    ImageView warningImgView;
+    
+    Image wheelImg;
+    ImageView wheelImgView;
 
     // GIFs 
     Image startGifImg;
     ImageView startGifImgView; 
     ImageView startGifImgView2;
+    
+    Image greetingGifImg;
+    ImageView greetingGifImgView;
     
     // About Text Label
     Image aboutTextLabel;
@@ -216,17 +230,31 @@ public class GUI extends Application {
     Image onoffStatusLabelImg;
     ImageView onoffStatusLabelImgView;
     
+    // Warning Label
+    Image warningLabelImg;
+    ImageView warningLabelImgView;
+    
+    // Wheel Label
+    Image wheelLabelImg;
+    ImageView wheelLabelImgView;
+    
     //----------------------------------------------------------------
     
     /**************/
     /* Animations */
     /**************/
     
+    // Wheel Rotation
+    RotateTransition wheelRotate;
+    
     // Direction1 Button Rotation
     RotateTransition directionRotate1;
     
     // Direction2 Button Rotation
     RotateTransition directionRotate2;
+    
+    // Opacity Animation
+    AnimationTimer timer;
     
     //----------------------------------------------------------------
     
@@ -286,7 +314,7 @@ public class GUI extends Application {
 	/***********/
         /* Music*/
         /***********/
-         uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
+        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
        
         uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
@@ -313,13 +341,13 @@ public class GUI extends Application {
         /***********************/
         
         gauge = new Gauge();
-        gauge.setSkin(new ModernSkin(gauge));  //ModernSkin : you guys can change the skin
+        gauge.setSkin(new ModernSkin(gauge));  
         gauge.setUnit("Rpm");  //unit
         gauge.setUnitColor(Color.WHITE);
         gauge.setValueVisible(false);
         gauge.setBarColor(Color.rgb(7, 137, 191));
         gauge.setNeedleColor(Color.rgb(194, 1, 54));
-        gauge.setThresholdColor(Color.rgb(194, 1, 54));  //color will become red if it crosses threshold value
+        gauge.setThresholdColor(Color.rgb(194, 1, 54)); 
         gauge.setThreshold(85);
         gauge.setThresholdVisible(true);
         gauge.setTickLabelColor(Color.WHITE);
@@ -374,8 +402,29 @@ public class GUI extends Application {
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
         
-        icon = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\Icon.png"));
+        iconImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\Icon.png"));
 
+        warningImg = new Image(new FileInputStream("E:\\warning.png"));
+        warningImgView = new ImageView(warningImg);
+        warningImgView.opacityProperty().set(warningSignOpacity);
+        warningImgView.setFitHeight(135);
+        warningImgView.setFitWidth(135);
+        warningImgView.setTranslateX(588);
+        warningImgView.setTranslateY(-145);
+        
+        wheelImg = new Image(new FileInputStream("E:\\wheel.png"));
+        wheelImgView = new ImageView(wheelImg);
+        wheelImgView.setTranslateX(588);
+        wheelImgView.setTranslateY(128);
+        wheelImgView.setFitHeight(140);
+        wheelImgView.setFitWidth(140);
+        wheelRotate = new RotateTransition();
+        wheelRotate.setAxis(Rotate.Z_AXIS);
+        wheelRotate.setByAngle(360);
+        wheelRotate.setCycleCount(Integer.MAX_VALUE);
+        wheelRotate.setRate(0.2);
+        wheelRotate.setDuration(Duration.INDEFINITE);
+        wheelRotate.setNode(wheelImgView);
 
         // GIFs 
         startGifImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\startGIF.gif"));
@@ -387,13 +436,18 @@ public class GUI extends Application {
         startGifImgView2 = new ImageView(startGifImg);
         startGifImgView2.setFitHeight(350);
         startGifImgView2.setFitWidth(350);
-        startGifImgView2.setTranslateX(550);
-        startGifImgView2.setTranslateY(300);
+        startGifImgView2.setTranslateX(200);
+        startGifImgView2.setTranslateY(260);
         startGifImgView2.setEffect(glow);
+        
+        greetingGifImg = new Image(new FileInputStream("E:\\hi\\greeting.gif"));
+        greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
         aboutTextLabel = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\main.png"));
         aboutTextLabelView = new ImageView(aboutTextLabel);
+        aboutTextLabelView.setFitHeight(700);
+        aboutTextLabelView.setFitWidth(700);
         aboutTextLabelView.setEffect(glow);
         
         
@@ -430,6 +484,21 @@ public class GUI extends Application {
         onoffStatusLabelImgView.setTranslateX(-650);
         onoffStatusLabelImgView.setTranslateY(125);
         
+        // Warning Label
+        warningLabelImg = new Image(new FileInputStream("E:\\warningLabel.png"));
+        warningLabelImgView = new ImageView(warningLabelImg);
+        warningLabelImgView.setFitHeight(230);
+        warningLabelImgView.setFitWidth(500);
+        warningLabelImgView.setTranslateX(580);
+        warningLabelImgView.setTranslateY(-150);
+        
+        // Wheel Label
+        wheelLabelImgView = new ImageView(warningLabelImg);
+        wheelLabelImgView.setFitHeight(230);
+        wheelLabelImgView.setFitWidth(500);
+        wheelLabelImgView.setTranslateX(580);
+        wheelLabelImgView.setTranslateY(125);
+        
         
         //----------------------------------------------------------------
         
@@ -442,6 +511,8 @@ public class GUI extends Application {
         startButton.setGraphic(startGifImgView);
         startButton.setStyle("-fx-background-color: transparent;");
         startButton.setEffect(glow);
+        startButton.setTranslateX(-250);
+        startButton.setTranslateY(-70);
         
         // Back Button
         backButton = new Button();
@@ -512,18 +583,27 @@ public class GUI extends Application {
         /* Texts */
         /*********/
         
-        // Start Label
+        // Greeting Text
+        greetingText = new Text("... Click Anywhere to Skip ...");
+        greetingText.setFont(Font.font("Verdana", 20));
+        greetingText.setFill(Color.WHITE);
+        greetingText.setTranslateY(450);
+        greetingText.setTranslateX(45);
+        
+        // Start Text
         startText = new Text("Start");
         startText.setFont(Font.font("Verdana", 40));
         startText.setFill(Color.WHITE);
+        startText.setTranslateX(-250);
+        startText.setTranslateY(-70);
         
         
         // About Text
         aboutText = new Text("ABOUT");
         aboutText.setFont(Font.font("Verdana", 20));
         aboutText.setFill(Color.WHITE);
-        aboutText.setTranslateX(550);
-        aboutText.setTranslateY(300);
+        aboutText.setTranslateX(200);
+        aboutText.setTranslateY(260);
         
         // About Text Inside The Label
         aboutTextInLabel = new Text("Bla Bla Bla");
@@ -594,6 +674,8 @@ public class GUI extends Application {
         startPane.getChildren().add(aboutButton);
         startPane.getChildren().add(startButton);
         startPane.getChildren().add(aboutText);
+        startPane.getChildren().add(greetingGifImgView);
+        startPane.getChildren().add(greetingText);
     
         // Main Pane
         mainPane = new StackPane();
@@ -611,6 +693,10 @@ public class GUI extends Application {
         mainPane.getChildren().add(dirStatusLabel);
         mainPane.getChildren().add(onoffStatusLabelImgView);
         mainPane.getChildren().add(onoffStatusLabel);
+        mainPane.getChildren().add(warningLabelImgView);
+        mainPane.getChildren().add(wheelLabelImgView);
+        mainPane.getChildren().add(warningImgView);
+        mainPane.getChildren().add(wheelImgView);
         
         // About Pane
         aboutPane = new StackPane();
@@ -651,6 +737,20 @@ public class GUI extends Application {
         
         connectionTask();
         
+        /********************/
+        /*     Greeting     */
+        /********************/
+        
+        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> { 
+            startPane.getChildren().remove(greetingGifImgView);
+            startPane.getChildren().remove(greetingText);  
+        }; 
+        
+    
+        greetingGifImgView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
+       
+        
+        //----------------------------------------------------------------
         
         /********************/
         /* Buttons Handlers */
@@ -700,7 +800,7 @@ public class GUI extends Application {
         dir1Button.setOnAction((ActionEvent event) -> {
         player3.stop();
      
-        String uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
         
             if(motorDirection==true)
@@ -726,7 +826,7 @@ public class GUI extends Application {
          // Direction2 (Anti-Clockwise) Button
         dir2Button.setOnAction((ActionEvent event) -> {
             
-       player2.stop();
+        player2.stop();
         uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
         
@@ -739,16 +839,19 @@ public class GUI extends Application {
                 directionRotate2.play();
                 
                 connection.motorDirectionArduino(motorDirection);
-           }
+            }
+            
             else
             {
                 // Do Nothing
             }
-            if(Flag_Mute== false){ 
-                    player3.stop(); 
-                    player1.stop(); 
-                    player2.play();
-                }
+            
+            if(Flag_Mute== false)
+            { 
+                player3.stop(); 
+                player1.stop(); 
+                player2.play();
+            }
         });
         
         
@@ -808,26 +911,37 @@ public class GUI extends Application {
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
             
-                 uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
-                    player1 = new MediaPlayer(new Media(uriString1));
-                    
-             if(motorSpeed>85 && mediaFlag == true){
-                    mediaFlag=false;
-                  
-                  
-                  if(Flag_Mute== false){ 
+            uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
+            player1 = new MediaPlayer(new Media(uriString1));
+            
+            if(motorSpeed>85)
+            {
+                timer.start();
+            }
+            
+            else
+            {
+                warningSignOpacity =  0.5;
+            }
+            
+            if(motorSpeed>85 && mediaFlag == true)
+            {
+                mediaFlag=false;
+                
+                if(Flag_Mute== false)
+                { 
                     player3.stop(); 
                     player2.stop(); 
                     player1.play();
                 }
                                     
                    
-                }
-                else if (motorSpeed<=85){
-                   mediaFlag = true;
-                }
-                         
-                         
+            }
+        
+            else if (motorSpeed<=85)
+            {
+                mediaFlag = true;
+            }             
         });
         
         //----------------------------------------------------------------
@@ -845,7 +959,7 @@ public class GUI extends Application {
         /* Scene & Stage */
         /*****************/
         stage.setTitle("Motor Controller");
-        stage.getIcons().add(icon);
+        stage.getIcons().add(iconImg);
         stage.setResizable(false);
         stage.setScene(startScene);
         stage.show();
@@ -902,6 +1016,35 @@ public class GUI extends Application {
                  connection.sendData(sliderSpeed);
           
         
+    }
+    
+    private class Timer extends AnimationTimer {
+
+        @Override
+        public void handle(long now) {
+
+            Handle();
+        }
+
+        private void Handle() {
+            
+            warningSignOpacity -= 0.02;
+            warningImgView.opacityProperty().set(warningSignOpacity);
+            
+            
+            if (motorSpeed<85)
+            {
+                stop();
+            }
+            
+            if (warningSignOpacity <= 0.2) 
+            {
+                while (warningSignOpacity <= 1)
+                {
+                    warningSignOpacity += 0.02;
+                }
+            }
+        }
     }
     
     
