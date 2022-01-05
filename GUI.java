@@ -11,7 +11,7 @@
  ********************************************************************/
 
 
-package guipack;
+package gui;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -314,13 +314,13 @@ public class GUI extends Application {
 	/***********/
         /* Music*/
         /***********/
-        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
+        uriString2 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
        
-        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
        
-        uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
+        uriString1 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/speed2.mp3").toURI().toString();
         player1 = new MediaPlayer(new Media(uriString1));
 		
    
@@ -377,7 +377,7 @@ public class GUI extends Application {
         /***********************/
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
@@ -386,25 +386,25 @@ public class GUI extends Application {
         startBackgroundImgView2.setFitHeight(1000);
         startBackgroundImgView2.setFitWidth(1920);
              
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\mainBackground.png"));
+        mainBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\backButton.png"));
+        backButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
         
-        backButtonImg2 = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\backButton.png"));
+        backButtonImg2 = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/backButton.png"));
         backButtonImgView2 = new ImageView(backButtonImg);
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
         
-        iconImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\Icon.png"));
+        iconImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/Icon.png"));
 
-        warningImg = new Image(new FileInputStream("E:\\warning.png"));
+        warningImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/warning.png"));
         warningImgView = new ImageView(warningImg);
         warningImgView.opacityProperty().set(warningSignOpacity);
         warningImgView.setFitHeight(135);
@@ -412,7 +412,7 @@ public class GUI extends Application {
         warningImgView.setTranslateX(588);
         warningImgView.setTranslateY(-145);
         
-        wheelImg = new Image(new FileInputStream("E:\\wheel.png"));
+        wheelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/wheel.png"));
         wheelImgView = new ImageView(wheelImg);
         wheelImgView.setTranslateX(588);
         wheelImgView.setTranslateY(128);
@@ -427,7 +427,7 @@ public class GUI extends Application {
         wheelRotate.setNode(wheelImgView);
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
@@ -440,11 +440,11 @@ public class GUI extends Application {
         startGifImgView2.setTranslateY(260);
         startGifImgView2.setEffect(glow);
         
-        greetingGifImg = new Image(new FileInputStream("E:\\hi\\greeting.gif"));
+        greetingGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/greeting.gif"));
         greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
-        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\main.png"));
+        aboutTextLabel = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/main.png"));
         aboutTextLabelView = new ImageView(aboutTextLabel);
         aboutTextLabelView.setFitHeight(700);
         aboutTextLabelView.setFitWidth(700);
@@ -452,40 +452,41 @@ public class GUI extends Application {
         
         
         // ON/OFF Button
-        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\onoffButton.png"));
+        onoffButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
         onoffButtonImgView.setFitHeight(25);
         onoffButtonImgView.setFitWidth(25);
         
         // Direction1 (Clockwise) Button
-        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\dir1Button.png"));
+        dir1ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
         dir1ButtonImgView.setFitHeight(25);
         dir1ButtonImgView.setFitWidth(25);
 
         // Direction2 (Anti-Clockwise) Button
-        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\dir2Button.png"));
+        dir2ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
         dir2ButtonImgView.setFitHeight(25);
         dir2ButtonImgView.setFitWidth(25);
         
         // Direction Status Label
-        dirStatusLabelImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\directionStatusLabel.png"));
+        dirStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/directionStatusLabel.png"));
         dirStatusLabelImgView = new ImageView(dirStatusLabelImg);
-        dirStatusLabelImgView.setFitHeight(100);
-        dirStatusLabelImgView.setFitWidth(400);
+        dirStatusLabelImgView.setFitHeight(230);
+        dirStatusLabelImgView.setFitWidth(500);
         dirStatusLabelImgView.setTranslateX(-650);
+        dirStatusLabelImgView.setTranslateY(-150);
         
         // ON/OFF Status Label
-        onoffStatusLabelImg = new Image(new FileInputStream("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Images\\onoffStatusLabel.png"));
+        onoffStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffStatusLabel.png"));
         onoffStatusLabelImgView = new ImageView(onoffStatusLabelImg);
-        onoffStatusLabelImgView.setFitHeight(125);
-        onoffStatusLabelImgView.setFitWidth(125);
+        onoffStatusLabelImgView.setFitHeight(300);
+        onoffStatusLabelImgView.setFitWidth(300);
         onoffStatusLabelImgView.setTranslateX(-650);
         onoffStatusLabelImgView.setTranslateY(125);
         
         // Warning Label
-        warningLabelImg = new Image(new FileInputStream("E:\\warningLabel.png"));
+        warningLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/warningLabel.png"));
         warningLabelImgView = new ImageView(warningLabelImg);
         warningLabelImgView.setFitHeight(230);
         warningLabelImgView.setFitWidth(500);
@@ -541,8 +542,8 @@ public class GUI extends Application {
         Glow onoffButtonGlow = new Glow();
         onoffButtonGlow.setLevel(0.9);
         onoffButton.setEffect(onoffButtonGlow);
-        onoffButton.setTranslateY(180);
-        onoffButton.setTranslateX(-655);
+        onoffButton.setTranslateY(253);
+        onoffButton.setTranslateX(-662);
         
 
         // Direction1 (Clockwise) Button
@@ -554,12 +555,12 @@ public class GUI extends Application {
         directionRotate1 = new RotateTransition();
         directionRotate1.setAxis(Rotate.Z_AXIS);
         directionRotate1.setByAngle(360); 
-        directionRotate1.setCycleCount(5000);
+        directionRotate1.setCycleCount(500);
         directionRotate1.setDuration(Duration.INDEFINITE);
         directionRotate1.setNode(dir1Button);
         dir1Button.setEffect(dir1ButtonGlow);
-        dir1Button.setTranslateY(-14);
-        dir1Button.setTranslateX(-834);
+        dir1Button.setTranslateY(-182);
+        dir1Button.setTranslateX(-878);
 
         // Direction2 (Anti-Clockwise) Button
         dir2Button = new Button();
@@ -574,8 +575,8 @@ public class GUI extends Application {
         directionRotate2.setDuration(Duration.INDEFINITE);
         directionRotate2.setNode(dir2Button);
         dir2Button.setEffect(dir2ButtonGlow);
-        dir2Button.setTranslateY(14);
-        dir2Button.setTranslateX(-464);
+        dir2Button.setTranslateY(-116);
+        dir2Button.setTranslateX(-420);
 
         //----------------------------------------------------------------
         
@@ -631,7 +632,7 @@ public class GUI extends Application {
         // Direction Status Label
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
-        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 25));
+        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 35));
         dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
         dirStatusLabel.setPrefHeight(35);
@@ -640,7 +641,7 @@ public class GUI extends Application {
         // ON/OFF Status Label
         onoffStatusLabel = new Label("OFF");
         onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
-        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 25));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 35));
         onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
         onoffStatusLabel.setTranslateX(-645);
         onoffStatusLabel.setTranslateY(120);
@@ -684,15 +685,15 @@ public class GUI extends Application {
         mainPane.getChildren().add(gauge);
         mainPane.getChildren().add(speedLabel);
         mainPane.getChildren().add(backButton);
-        mainPane.getChildren().add(onoffButton);
-        mainPane.getChildren().add(dir1Button);
-        mainPane.getChildren().add(dir2Button);
 	mainPane.getChildren().add(bar);
         mainPane.getChildren().add(title);
         mainPane.getChildren().add(dirStatusLabelImgView);
         mainPane.getChildren().add(dirStatusLabel);
         mainPane.getChildren().add(onoffStatusLabelImgView);
         mainPane.getChildren().add(onoffStatusLabel);
+        mainPane.getChildren().add(onoffButton);
+        mainPane.getChildren().add(dir1Button);
+        mainPane.getChildren().add(dir2Button);
         mainPane.getChildren().add(warningLabelImgView);
         mainPane.getChildren().add(wheelLabelImgView);
         mainPane.getChildren().add(warningImgView);
