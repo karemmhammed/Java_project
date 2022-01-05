@@ -958,8 +958,19 @@ public class GUI extends Application {
                 mediaFlag = true;
             }             
         });
-        
-        //----------------------------------------------------------------
+
+   //----------------------------------------------------------------
+
+        /********************* /
+        /* GUI Close Handling* /
+        /********************* /
+        stage.setOnCloseRequest(event -> {
+            connection.motorDirectionArduino(false);
+            connection.motorStateArduino(false);
+            connection.sendData(0);                             // PWM zero
+        });
+
+  //----------------------------------------------------------------
         
         /*****************/
         /* Scene & Stage */
