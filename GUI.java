@@ -454,20 +454,20 @@ public class GUI extends Application {
         // ON/OFF Button
         onoffButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
-        onoffButtonImgView.setFitHeight(25);
-        onoffButtonImgView.setFitWidth(25);
+        onoffButtonImgView.setFitHeight(40);
+        onoffButtonImgView.setFitWidth(40);
         
         // Direction1 (Clockwise) Button
         dir1ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
-        dir1ButtonImgView.setFitHeight(25);
-        dir1ButtonImgView.setFitWidth(25);
+        dir1ButtonImgView.setFitHeight(40);
+        dir1ButtonImgView.setFitWidth(40);
 
         // Direction2 (Anti-Clockwise) Button
         dir2ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
-        dir2ButtonImgView.setFitHeight(25);
-        dir2ButtonImgView.setFitWidth(25);
+        dir2ButtonImgView.setFitHeight(40);
+        dir2ButtonImgView.setFitWidth(40);
         
         // Direction Status Label
         dirStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/directionStatusLabel.png"));
@@ -560,7 +560,7 @@ public class GUI extends Application {
         directionRotate1.setNode(dir1Button);
         dir1Button.setEffect(dir1ButtonGlow);
         dir1Button.setTranslateY(-182);
-        dir1Button.setTranslateX(-878);
+        dir1Button.setTranslateX(-885);
 
         // Direction2 (Anti-Clockwise) Button
         dir2Button = new Button();
@@ -576,7 +576,7 @@ public class GUI extends Application {
         directionRotate2.setNode(dir2Button);
         dir2Button.setEffect(dir2ButtonGlow);
         dir2Button.setTranslateY(-116);
-        dir2Button.setTranslateX(-420);
+        dir2Button.setTranslateX(-415);
 
         //----------------------------------------------------------------
         
@@ -632,19 +632,20 @@ public class GUI extends Application {
         // Direction Status Label
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
-        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 35));
+        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 40));
         dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
+        dirStatusLabel.setTranslateY(-150);
         dirStatusLabel.setPrefHeight(35);
         dirStatusLabel.setAlignment(Pos.CENTER);
         
         // ON/OFF Status Label
         onoffStatusLabel = new Label("OFF");
         onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
-        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 35));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 40));
         onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
         onoffStatusLabel.setTranslateX(-645);
-        onoffStatusLabel.setTranslateY(120);
+        onoffStatusLabel.setTranslateY(110);
         onoffStatusLabel.setPrefHeight(35);
         onoffStatusLabel.setAlignment(Pos.CENTER);
 
@@ -787,11 +788,24 @@ public class GUI extends Application {
             {
                 motorMode = true;
                 onoffStatusLabel.setText("ON");
+                if(motorDirection==false)
+                {
+                    directionRotate1.play();
+                    directionRotate2.stop();
+                }
+                else
+                {
+                    directionRotate2.play();
+                    directionRotate1.stop();
+                }
+                    
             }
             else
             {
                 motorMode = false;
                 onoffStatusLabel.setText("OFF");
+                directionRotate1.stop();
+                directionRotate2.stop();
             }
             
             connection.motorStateArduino(motorMode);
@@ -801,7 +815,7 @@ public class GUI extends Application {
         dir1Button.setOnAction((ActionEvent event) -> {
         player3.stop();
      
-        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
         
             if(motorDirection==true)
@@ -828,7 +842,7 @@ public class GUI extends Application {
         dir2Button.setOnAction((ActionEvent event) -> {
             
         player2.stop();
-        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
+        uriString2 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
         
       
@@ -912,7 +926,7 @@ public class GUI extends Application {
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
             
-            uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
+            uriString1 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/speed2.mp3").toURI().toString();
             player1 = new MediaPlayer(new Media(uriString1));
             
             if(motorSpeed>85)
@@ -944,15 +958,6 @@ public class GUI extends Application {
                 mediaFlag = true;
             }             
         });
-        
-        //----------------------------------------------------------------
-        
-        /**************/
-        /* Animations */
-        /**************/
-        
-        // Direction1 Button Rotation
-        directionRotate1.play();
         
         //----------------------------------------------------------------
         
