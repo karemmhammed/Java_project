@@ -102,22 +102,29 @@ public class GUI extends Application {
     /*********/
     /* Texts */
     /*********/
+   
     Text startText;
+    Text CarText;
     Text aboutText;
     Text aboutTextInLabel;
-    Text title;
+    Text motorTitle;
     Text greetingText;
+    Text carTitle;
     
     /***********/
     /* Buttons */
     /***********/
+   
+    // Car Button
+    Button carButton;
     
-    // Start Button
-    Button startButton;
+    // Motor Button
+    Button motorButton;
     
     // Back Button
-    Button backButton;
-    Button backButton2;
+    Button backButtonMotorStart;
+    Button backButtonAboutStart;
+    Button backButtonCarStart;
     
     // About Button
     Button aboutButton;
@@ -181,14 +188,16 @@ public class GUI extends Application {
     Image startBackgroundImg;
     ImageView startBackgroundImgView;
     ImageView startBackgroundImgView2;
+    
     Image mainBackgroundImg;
     ImageView mainBackgroundImgView;
+    ImageView mainBackgroundImgView2;
     
     // Symbols
     Image backButtonImg;
-    Image backButtonImg2;
     ImageView backButtonImgView;
     ImageView backButtonImgView2;
+    ImageView backButtonImgView3;
     
     Image iconImg;
     
@@ -202,6 +211,7 @@ public class GUI extends Application {
     Image startGifImg;
     ImageView startGifImgView; 
     ImageView startGifImgView2;
+    ImageView startGifImgView3;
     
     Image greetingGifImg;
     ImageView greetingGifImgView;
@@ -271,6 +281,9 @@ public class GUI extends Application {
     // About Pane
     StackPane aboutPane;
     
+    // Car Pane
+    StackPane carPane;
+    
     //----------------------------------------------------------------
     
     /**********/
@@ -280,11 +293,14 @@ public class GUI extends Application {
     // Start Scene
     Scene startScene;
     
-    // Main Scene
-    Scene mainScene;
+    // Motor Scene
+    Scene motorScene;
     
     // About Scene
     Scene aboutScene;
+    
+    // Car Scene
+    Scene carScene;
     
     //----------------------------------------------------------------
     
@@ -390,6 +406,10 @@ public class GUI extends Application {
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
+        
+        mainBackgroundImgView2= new ImageView(mainBackgroundImg);
+        mainBackgroundImgView2.setFitHeight(1000);
+        mainBackgroundImgView2.setFitWidth(1920);
     
         // Symbols
         backButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/backButton.png"));
@@ -397,7 +417,6 @@ public class GUI extends Application {
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
         
-        backButtonImg2 = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/backButton.png"));
         backButtonImgView2 = new ImageView(backButtonImg);
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
@@ -439,6 +458,13 @@ public class GUI extends Application {
         startGifImgView2.setTranslateX(200);
         startGifImgView2.setTranslateY(260);
         startGifImgView2.setEffect(glow);
+        
+        startGifImgView3 = new ImageView(startGifImg);
+        startGifImgView3.setFitHeight(320);
+        startGifImgView3.setFitWidth(320);
+        startGifImgView3.setTranslateX(200);
+        startGifImgView3.setTranslateY(260);
+        startGifImgView3.setEffect(glow);
         
         greetingGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/greeting.gif"));
         greetingGifImgView = new ImageView(greetingGifImg);
@@ -507,27 +533,42 @@ public class GUI extends Application {
         /* Buttons */
         /***********/
         
-        // Start Button
-        startButton = new Button();
-        startButton.setGraphic(startGifImgView);
-        startButton.setStyle("-fx-background-color: transparent;");
-        startButton.setEffect(glow);
-        startButton.setTranslateX(-250);
-        startButton.setTranslateY(-70);
+        // Car Button
+        carButton = new Button();
+        carButton.setGraphic(startGifImgView3);
+        carButton.setStyle("-fx-background-color: transparent;");
+        carButton.setEffect(glow);
+        carButton.setTranslateX(50);
+        carButton.setTranslateY(-450);
         
-        // Back Button
-        backButton = new Button();
-        backButton.setGraphic(backButtonImgView);
-        backButton.setStyle("-fx-background-color: transparent;");
-        backButton.setTranslateY(450);
-        backButton.setTranslateX(-900);
+        // Motor Button
+        motorButton = new Button();
+        motorButton.setGraphic(startGifImgView);
+        motorButton.setStyle("-fx-background-color: transparent;");
+        motorButton.setEffect(glow);
+        motorButton.setTranslateX(-250);
+        motorButton.setTranslateY(-70);
         
-        // Back Button 2
-        backButton2 = new Button();
-        backButton2.setGraphic(backButtonImgView2);
-        backButton2.setStyle("-fx-background-color: transparent;");
-        backButton2.setTranslateY(450);
-        backButton2.setTranslateX(-900);
+        // Back Button From Motor-Mode to Main
+        backButtonMotorStart = new Button();
+        backButtonMotorStart.setGraphic(backButtonImgView);
+        backButtonMotorStart.setStyle("-fx-background-color: transparent;");
+        backButtonMotorStart.setTranslateY(450);
+        backButtonMotorStart.setTranslateX(-900);
+        
+        // Back Button From about to Home
+        backButtonAboutStart = new Button();
+        backButtonAboutStart.setGraphic(backButtonImgView2);
+        backButtonAboutStart.setStyle("-fx-background-color: transparent;");
+        backButtonAboutStart.setTranslateY(450);
+        backButtonAboutStart.setTranslateX(-900);
+        
+        // Back Button From Car-Mode to Home
+        backButtonCarStart = new Button();
+        backButtonCarStart.setGraphic(backButtonImgView3);
+        backButtonCarStart.setStyle("-fx-background-color: transparent;");
+        backButtonCarStart.setTranslateY(450);
+        backButtonCarStart.setTranslateX(-900);
         
         // About Button
         aboutButton = new Button();
@@ -543,8 +584,7 @@ public class GUI extends Application {
         onoffButtonGlow.setLevel(0.9);
         onoffButton.setEffect(onoffButtonGlow);
         onoffButton.setTranslateY(253);
-        onoffButton.setTranslateX(-662);
-        
+        onoffButton.setTranslateX(-662);  
 
         // Direction1 (Clockwise) Button
         dir1Button = new Button();
@@ -591,13 +631,19 @@ public class GUI extends Application {
         greetingText.setTranslateY(450);
         greetingText.setTranslateX(45);
         
-        // Start Text
-        startText = new Text("Start");
+        // Motor Label
+        startText = new Text("Motor\n Mode");
         startText.setFont(Font.font("Verdana", 40));
         startText.setFill(Color.WHITE);
         startText.setTranslateX(-250);
         startText.setTranslateY(-70);
         
+        // car Label
+        CarText = new Text(" Car\nMode");
+        CarText.setFont(Font.font("Verdana", 30));
+        CarText.setFill(Color.WHITE);
+        CarText.setTranslateX(250);
+        CarText.setTranslateY(-200);
         
         // About Text
         aboutText = new Text("ABOUT");
@@ -612,11 +658,18 @@ public class GUI extends Application {
         aboutTextInLabel.setStyle("-fx-color: #040112;");
         
         // Title
-        title = new Text("MOTOR CONTROLLER");
-        title.setFont(Font.font("Verdana", 45));
-        title.setFill(Color.WHITE);
-        title.setTranslateY(-440);
-        title.setEffect(glow);
+        motorTitle = new Text("MOTOR CONTROLLER");
+        motorTitle.setFont(Font.font("Verdana", 45));
+        motorTitle.setFill(Color.WHITE);
+        motorTitle.setTranslateY(-440);
+        motorTitle.setEffect(glow);
+        
+        // Car Title
+        carTitle = new Text("CAR CONTROLLER");
+        carTitle.setFont(Font.font("Verdana", 45));
+        carTitle.setFill(Color.WHITE);
+        carTitle.setTranslateY(-440);
+        carTitle.setEffect(glow);
         
         /**********/
         /* Labels */
@@ -674,7 +727,9 @@ public class GUI extends Application {
         startPane.getChildren().add(startBackgroundImgView);
         startPane.getChildren().add(startText);
         startPane.getChildren().add(aboutButton);
-        startPane.getChildren().add(startButton);
+        startPane.getChildren().add(motorButton);
+        startPane.getChildren().add(CarText);
+        startPane.getChildren().add(carButton);
         startPane.getChildren().add(aboutText);
         startPane.getChildren().add(greetingGifImgView);
         startPane.getChildren().add(greetingText);
@@ -685,9 +740,9 @@ public class GUI extends Application {
         mainPane.getChildren().add(speedSlider);
         mainPane.getChildren().add(gauge);
         mainPane.getChildren().add(speedLabel);
-        mainPane.getChildren().add(backButton);
+        mainPane.getChildren().add(backButtonMotorStart);
 	mainPane.getChildren().add(bar);
-        mainPane.getChildren().add(title);
+        mainPane.getChildren().add(motorTitle);
         mainPane.getChildren().add(dirStatusLabelImgView);
         mainPane.getChildren().add(dirStatusLabel);
         mainPane.getChildren().add(onoffStatusLabelImgView);
@@ -703,10 +758,16 @@ public class GUI extends Application {
         // About Pane
         aboutPane = new StackPane();
         aboutPane.getChildren().add(startBackgroundImgView2);
-        aboutPane.getChildren().add(backButton2);
+        aboutPane.getChildren().add(backButtonAboutStart);
         aboutPane.getChildren().add(aboutTextLabelView);
         aboutPane.getChildren().add(aboutTextInLabel);
-
+        
+        // Car Pane
+        carPane = new StackPane();
+        carPane.getChildren().add(mainBackgroundImgView2);
+        carPane.getChildren().add(backButtonCarStart);
+        carPane.getChildren().add(carTitle);
+        
         //----------------------------------------------------------------
         
         /**********/
@@ -719,8 +780,11 @@ public class GUI extends Application {
         // About Scene
         aboutScene = new Scene(aboutPane, 1920, 1000);
            
-        // Main Scene
-        mainScene = new Scene(mainPane, 1920, 1000);
+        // Motor Scene
+        motorScene = new Scene(mainPane, 1920, 1000);
+        
+        // Car Scene
+        carScene = new Scene(carPane, 1920, 1000);
         
         //----------------------------------------------------------------
         
@@ -759,8 +823,8 @@ public class GUI extends Application {
         /********************/
         
         // Start Button
-        startButton.setOnAction((ActionEvent event) -> {
-            stage.setScene(mainScene);
+        motorButton.setOnAction((ActionEvent event) -> {
+            stage.setScene(motorScene);
             stage.show();
         });
         
@@ -770,14 +834,26 @@ public class GUI extends Application {
             stage.show();
         });
         
+        // Car Button
+        carButton.setOnAction((ActionEvent event) -> {
+            stage.setScene(carScene);
+            stage.show();
+        });
+        
         // Back Button
-        backButton.setOnAction((ActionEvent event) -> {
+        backButtonMotorStart.setOnAction((ActionEvent event) -> {
             stage.setScene(startScene);
             stage.show();
         });
 
         // Back Button 2
-        backButton2.setOnAction((ActionEvent event) -> {
+        backButtonAboutStart.setOnAction((ActionEvent event) -> {
+            stage.setScene(startScene);
+            stage.show();
+        });
+        
+        // Back Button From Car-Mode 
+        backButtonCarStart.setOnAction((ActionEvent event) -> {
             stage.setScene(startScene);
             stage.show();
         });
@@ -788,6 +864,8 @@ public class GUI extends Application {
             {
                 motorMode = true;
                 onoffStatusLabel.setText("ON");
+                wheelRotate.play();
+                wheelRotate.setRate(0);
                 if(motorDirection==false)
                 {
                     directionRotate1.play();
@@ -804,6 +882,7 @@ public class GUI extends Application {
             {
                 motorMode = false;
                 onoffStatusLabel.setText("OFF");
+                wheelRotate.stop();
                 directionRotate1.stop();
                 directionRotate2.stop();
             }
@@ -926,6 +1005,7 @@ public class GUI extends Application {
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
             
+            timer = new Timer();
             uriString1 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/speed2.mp3").toURI().toString();
             player1 = new MediaPlayer(new Media(uriString1));
             
