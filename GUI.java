@@ -60,6 +60,10 @@ public class GUI extends Application {
     /******************** Variables Declarations ********************/
     /****************************************************************/
     
+    
+    
+   
+    Car car = new Car();
     /*****************************/
     /* Flags & Numeric Variables */
     /*****************************/
@@ -165,7 +169,7 @@ public class GUI extends Application {
     //----------------------------------------------------------------
     
     /***********************/
-    /*       Gauge       */
+    /*       Gauge         */
     /***********************/
    
     Gauge gauge;        
@@ -281,8 +285,7 @@ public class GUI extends Application {
     // About Pane
     StackPane aboutPane;
     
-    // Car Pane
-    StackPane carPane;
+   
     
     //----------------------------------------------------------------
     
@@ -299,8 +302,7 @@ public class GUI extends Application {
     // About Scene
     Scene aboutScene;
     
-    // Car Scene
-    Scene carScene;
+  
     
     //----------------------------------------------------------------
     
@@ -316,6 +318,9 @@ public class GUI extends Application {
     @Override
     public void init() throws FileNotFoundException{
         
+        
+        car.init();
+        
         /*****************************/
         /* Flags & Numeric Variables */
         /*****************************/
@@ -330,13 +335,13 @@ public class GUI extends Application {
 	/***********/
         /* Music*/
         /***********/
-        uriString2 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/anti.mp3").toURI().toString();
+        uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
        
-        uriString3 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/clockwise.mp3").toURI().toString();
+        uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
        
-        uriString1 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/speed2.mp3").toURI().toString();
+        uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed2.mp3").toURI().toString();
         player1 = new MediaPlayer(new Media(uriString1));
 		
    
@@ -393,7 +398,7 @@ public class GUI extends Application {
         /***********************/
 
         // Background
-        startBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/startBackground.png"));
+        startBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startBackground.png"));
         startBackgroundImgView = new ImageView(startBackgroundImg);
         startBackgroundImgView.setFitHeight(1000);
         startBackgroundImgView.setFitWidth(1920);
@@ -402,7 +407,7 @@ public class GUI extends Application {
         startBackgroundImgView2.setFitHeight(1000);
         startBackgroundImgView2.setFitWidth(1920);
              
-        mainBackgroundImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/mainBackground.png"));
+        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
@@ -412,7 +417,7 @@ public class GUI extends Application {
         mainBackgroundImgView2.setFitWidth(1920);
     
         // Symbols
-        backButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/backButton.png"));
+        backButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\backButton.png"));
         backButtonImgView = new ImageView(backButtonImg);
         backButtonImgView.setFitHeight(50);
         backButtonImgView.setFitWidth(50);
@@ -421,9 +426,9 @@ public class GUI extends Application {
         backButtonImgView2.setFitHeight(50);
         backButtonImgView2.setFitWidth(50);
         
-        iconImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/Icon.png"));
+        iconImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\Icon.png"));
 
-        warningImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/warning.png"));
+        warningImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\warning.png"));
         warningImgView = new ImageView(warningImg);
         warningImgView.opacityProperty().set(warningSignOpacity);
         warningImgView.setFitHeight(135);
@@ -431,7 +436,7 @@ public class GUI extends Application {
         warningImgView.setTranslateX(588);
         warningImgView.setTranslateY(-145);
         
-        wheelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/wheel.png"));
+        wheelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\wheel.png"));
         wheelImgView = new ImageView(wheelImg);
         wheelImgView.setTranslateX(588);
         wheelImgView.setTranslateY(128);
@@ -446,7 +451,7 @@ public class GUI extends Application {
         wheelRotate.setNode(wheelImgView);
 
         // GIFs 
-        startGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/startGIF.gif"));
+        startGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\startGIF.gif"));
         startGifImgView = new ImageView(startGifImg);
         startGifImgView.setFitHeight(450);
         startGifImgView.setFitWidth(450);
@@ -466,11 +471,11 @@ public class GUI extends Application {
         startGifImgView3.setTranslateY(260);
         startGifImgView3.setEffect(glow);
         
-        greetingGifImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/greeting.gif"));
-        greetingGifImgView = new ImageView(greetingGifImg);
+//        greetingGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\greeting.gif"));
+//        greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
-        aboutTextLabel = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/main.png"));
+        aboutTextLabel = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\main.png"));
         aboutTextLabelView = new ImageView(aboutTextLabel);
         aboutTextLabelView.setFitHeight(700);
         aboutTextLabelView.setFitWidth(700);
@@ -478,25 +483,25 @@ public class GUI extends Application {
         
         
         // ON/OFF Button
-        onoffButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffButton.png"));
+        onoffButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffButton.png"));
         onoffButtonImgView = new ImageView(onoffButtonImg);
         onoffButtonImgView.setFitHeight(40);
         onoffButtonImgView.setFitWidth(40);
         
         // Direction1 (Clockwise) Button
-        dir1ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir1Button.png"));
+        dir1ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir1Button.png"));
         dir1ButtonImgView = new ImageView(dir1ButtonImg);
         dir1ButtonImgView.setFitHeight(40);
         dir1ButtonImgView.setFitWidth(40);
 
         // Direction2 (Anti-Clockwise) Button
-        dir2ButtonImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/dir2Button.png"));
+        dir2ButtonImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\dir2Button.png"));
         dir2ButtonImgView = new ImageView(dir2ButtonImg);
         dir2ButtonImgView.setFitHeight(40);
         dir2ButtonImgView.setFitWidth(40);
         
         // Direction Status Label
-        dirStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/directionStatusLabel.png"));
+        dirStatusLabelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\directionStatusLabel.png"));
         dirStatusLabelImgView = new ImageView(dirStatusLabelImg);
         dirStatusLabelImgView.setFitHeight(230);
         dirStatusLabelImgView.setFitWidth(500);
@@ -504,7 +509,7 @@ public class GUI extends Application {
         dirStatusLabelImgView.setTranslateY(-150);
         
         // ON/OFF Status Label
-        onoffStatusLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/onoffStatusLabel.png"));
+        onoffStatusLabelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\onoffStatusLabel.png"));
         onoffStatusLabelImgView = new ImageView(onoffStatusLabelImg);
         onoffStatusLabelImgView.setFitHeight(300);
         onoffStatusLabelImgView.setFitWidth(300);
@@ -512,7 +517,7 @@ public class GUI extends Application {
         onoffStatusLabelImgView.setTranslateY(125);
         
         // Warning Label
-        warningLabelImg = new Image(new FileInputStream("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Images/warningLabel.png"));
+        warningLabelImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\warningLabel.png"));
         warningLabelImgView = new ImageView(warningLabelImg);
         warningLabelImgView.setFitHeight(230);
         warningLabelImgView.setFitWidth(500);
@@ -664,13 +669,7 @@ public class GUI extends Application {
         motorTitle.setTranslateY(-440);
         motorTitle.setEffect(glow);
         
-        // Car Title
-        carTitle = new Text("CAR CONTROLLER");
-        carTitle.setFont(Font.font("Verdana", 45));
-        carTitle.setFill(Color.WHITE);
-        carTitle.setTranslateY(-440);
-        carTitle.setEffect(glow);
-        
+   
         /**********/
         /* Labels */
         /**********/
@@ -685,7 +684,7 @@ public class GUI extends Application {
         // Direction Status Label
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
-        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 40));
+        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\body.ttf")), 40));
         dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
         dirStatusLabel.setTranslateY(-150);
@@ -695,7 +694,7 @@ public class GUI extends Application {
         // ON/OFF Status Label
         onoffStatusLabel = new Label("OFF");
         onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
-        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Fonts/body.ttf")), 40));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\body.ttf")), 40));
         onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
         onoffStatusLabel.setTranslateX(-645);
         onoffStatusLabel.setTranslateY(110);
@@ -731,7 +730,7 @@ public class GUI extends Application {
         startPane.getChildren().add(CarText);
         startPane.getChildren().add(carButton);
         startPane.getChildren().add(aboutText);
-        startPane.getChildren().add(greetingGifImgView);
+//        startPane.getChildren().add(greetingGifImgView);
         startPane.getChildren().add(greetingText);
     
         // Main Pane
@@ -762,12 +761,7 @@ public class GUI extends Application {
         aboutPane.getChildren().add(aboutTextLabelView);
         aboutPane.getChildren().add(aboutTextInLabel);
         
-        // Car Pane
-        carPane = new StackPane();
-        carPane.getChildren().add(mainBackgroundImgView2);
-        carPane.getChildren().add(backButtonCarStart);
-        carPane.getChildren().add(carTitle);
-        
+   
         //----------------------------------------------------------------
         
         /**********/
@@ -783,8 +777,7 @@ public class GUI extends Application {
         // Motor Scene
         motorScene = new Scene(mainPane, 1920, 1000);
         
-        // Car Scene
-        carScene = new Scene(carPane, 1920, 1000);
+     
         
         //----------------------------------------------------------------
         
@@ -800,7 +793,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) {
         
-        
+        car.start(stage);
         connectionTask();
         
         /********************/
@@ -813,7 +806,7 @@ public class GUI extends Application {
         }; 
         
     
-        greetingGifImgView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
+  //      greetingGifImgView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
        
         
         //----------------------------------------------------------------
@@ -836,7 +829,8 @@ public class GUI extends Application {
         
         // Car Button
         carButton.setOnAction((ActionEvent event) -> {
-            stage.setScene(carScene);
+            
+            stage.setScene(car.CarrScene);
             stage.show();
         });
         
@@ -894,7 +888,7 @@ public class GUI extends Application {
         dir1Button.setOnAction((ActionEvent event) -> {
         player3.stop();
      
-        uriString3 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/clockwise.mp3").toURI().toString();
+        uriString3 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
         
             if(motorDirection==true)
@@ -921,7 +915,7 @@ public class GUI extends Application {
         dir2Button.setOnAction((ActionEvent event) -> {
             
         player2.stop();
-        uriString2 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/anti.mp3").toURI().toString();
+        uriString2 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
         
       
@@ -1006,7 +1000,7 @@ public class GUI extends Application {
             gauge.setValue(motorSpeed);
             
             timer = new Timer();
-            uriString1 = new File("/Users/josephgirges/Desktop/Data/ITI/Courses/05.Java Programming/Project/git/Attachments/Music/speed2.mp3").toURI().toString();
+            uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed2.mp3").toURI().toString();
             player1 = new MediaPlayer(new Media(uriString1));
             
             if(motorSpeed>85)
