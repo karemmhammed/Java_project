@@ -430,6 +430,7 @@ public class GUI extends Application {
 
         warningImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\warning.png"));
         warningImgView = new ImageView(warningImg);
+        timer = new Timer();
         warningImgView.opacityProperty().set(warningSignOpacity);
         warningImgView.setFitHeight(135);
         warningImgView.setFitWidth(135);
@@ -471,8 +472,8 @@ public class GUI extends Application {
         startGifImgView3.setTranslateY(260);
         startGifImgView3.setEffect(glow);
         
-//        greetingGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\greeting.gif"));
-//        greetingGifImgView = new ImageView(greetingGifImg);
+        greetingGifImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\greeting.gif"));
+        greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
         aboutTextLabel = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\main.png"));
@@ -806,7 +807,7 @@ public class GUI extends Application {
         }; 
         
     
-  //      greetingGifImgView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
+        greetingGifImgView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
        
         
         //----------------------------------------------------------------
@@ -859,7 +860,6 @@ public class GUI extends Application {
                 motorMode = true;
                 onoffStatusLabel.setText("ON");
                 wheelRotate.play();
-                wheelRotate.setRate(0);
                 if(motorDirection==false)
                 {
                     directionRotate1.play();
@@ -947,44 +947,31 @@ public class GUI extends Application {
 		  
         // TO MUTE SOUND
          
-        sound.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-               Flag_Mute= true;
-               
-            }
+        sound.setOnAction((ActionEvent event) -> {
+            Flag_Mute= true;
         });
         //----------------------------------------------------------------
 		
         // TO UNMUTE SOUND
         
-         sound1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Flag_Mute= false;
-                
-            }
+         sound1.setOnAction((ActionEvent event) -> {
+             Flag_Mute= false;
         });
 		
 	//----------------------------------------------------------------
 		
 	 // EXIT ALERT
         
-        exit.setOnAction(new EventHandler<ActionEvent>(){
-        @Override
-           public void handle(ActionEvent event) {
+        exit.setOnAction((ActionEvent event) -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation message");
             alert.setHeaderText("Exit!");
             alert.setContentText("Are you sure you want to Exit this app");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-            stage.close();
+                stage.close();
             }
             else {}
-
-            }
-       
         });
         
         /******************/
@@ -998,8 +985,8 @@ public class GUI extends Application {
             motorSpeed= (int) (sliderSpeed/2.5);
             speedLabel.setText("" + motorSpeed + "");
             gauge.setValue(motorSpeed);
+            wheelRotate.setRate(motorSpeed);
             
-            timer = new Timer();
             uriString1 = new File("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\speed2.mp3").toURI().toString();
             player1 = new MediaPlayer(new Media(uriString1));
             
@@ -1062,12 +1049,9 @@ public class GUI extends Application {
     
     
     public void connectionTask(){
-        Runnable task = new Runnable(){
-            @Override
-            public void run() {
-                while(true){
-                    runTask();
-                }
+        Runnable task = () -> {
+            while(true){
+                runTask();
             }
         };
         Thread backGround = new Thread(task);
@@ -1081,14 +1065,10 @@ public class GUI extends Application {
             
         }
         
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                 alert.showAndWait();
-                 connection = new Connect();
-            }
-        
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.showAndWait();
+            connection = new Connect();
         });
         
         while(!connection.checkConnection()){
@@ -1123,7 +1103,7 @@ public class GUI extends Application {
             warningImgView.opacityProperty().set(warningSignOpacity);
             
             
-            if (motorSpeed<85)
+            if (motorSpeed<=85)
             {
                 stop();
             }
