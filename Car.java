@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package finaltest;
 
 
 import eu.hansolo.medusa.Gauge;
 
 import eu.hansolo.medusa.skins.ModernSkin;
 
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
+import javafx.animation.AnimationTimer;
 
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -42,6 +43,15 @@ import javafx.stage.Stage;
  * @author karim
  */
 public class Car extends Application {
+    
+     Timer timer;
+     int  motorspeed=0;
+     
+     boolean flag_key=false;
+     Button backButtonCarStart;
+     Image backButtonImgCar;
+     ImageView backButtonImgViewCar;
+    
     
     
     
@@ -92,14 +102,33 @@ public class Car extends Application {
   // Scene     
        
        Scene CarrScene;
-         
-        
-    @Override
+       
+       
+       ClientGui client;
+       
+       
+     @Override
      public void init() throws FileNotFoundException {
          
+         // Symbols
+        backButtonImgCar = new Image(getClass().getResourceAsStream("Images/backButton.png"));
+        backButtonImgViewCar = new ImageView(backButtonImgCar);
+        backButtonImgViewCar.setFitHeight(50);
+        backButtonImgViewCar.setFitWidth(50);
+        
+        
+         // Back Button From Car-Mode to Home
+        backButtonCarStart = new Button();
+        backButtonCarStart.setGraphic(backButtonImgViewCar);
+        backButtonCarStart.setStyle("-fx-background-color: transparent;");
+        backButtonCarStart.setTranslateY(450);
+        backButtonCarStart.setTranslateX(-900);
+        
+        timer = new Timer();
+             
+        
+         
       //init of label
-      
-      
         speedLabel = new Label("0");
         speedLabel.setTextFill(Color.WHITE);
         speedLabel.setFont(Font.font("Arial", 100));
@@ -133,6 +162,8 @@ public class Car extends Application {
         gauge = new Gauge();
         gauge.setSkin(new ModernSkin(gauge));
         gauge.setUnit("Rpm");  //unit
+        gauge.setAnimated(true);
+        gauge.setAnimationDuration(500); 
         gauge.setUnitColor(Color.WHITE);
         gauge.setValueVisible(false);
         gauge.setBarColor(Color.rgb(7, 137, 191));
@@ -149,39 +180,33 @@ public class Car extends Application {
       // init of images of buttons 
        
        
-        down_arrow = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\ArrowDown.png"));
+        down_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowDown.png"));
         down_arrow_View = new ImageView( down_arrow );
         down_arrow_View.setFitHeight(200);
         down_arrow_View.setFitWidth(200);
         
             
-        up_arrow = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\ArrowUP.png"));
+        up_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowUP.png"));
         up_arrow_View = new ImageView( up_arrow );
         up_arrow_View.setFitHeight(200);
         up_arrow_View.setFitWidth(200);
         
             
-        right_arrow = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\ArrowRight.png"));
+        right_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowRight.png"));
         right_arrow_View = new ImageView( right_arrow );
         right_arrow_View.setFitHeight(200);
         right_arrow_View.setFitWidth(200);
         
         
             
-        left_arrow = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\ArrowLeft.png"));
+        left_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowLeft.png"));
         left_arrow_View = new ImageView( left_arrow );
         left_arrow_View.setFitHeight(200);
         left_arrow_View.setFitWidth(200);
         
+        glow = new Glow(3);
         
-        
-              glow = new Glow(3);
-        
-        
-        
-        
-        
-      // control Buttons
+     // control Buttons
        
         backButton = new Button("Back");
         backButton.setGraphic(down_arrow_View);
@@ -227,7 +252,7 @@ public class Car extends Application {
    
          // init the back ground 
          
-        mainBackgroundImg = new Image(new FileInputStream("C:\\Users\\elkany\\Documents\\NetBeansProjects\\Version-1-karim\\mainBackground.png"));
+        mainBackgroundImg  = new Image(getClass().getResourceAsStream("Images/mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
         mainBackgroundImgView.setFitWidth(1920);
@@ -241,22 +266,27 @@ public class Car extends Application {
         mainPane2.getChildren().add(backButton);
         mainPane2.getChildren().add(upButton);
         mainPane2.getChildren().add(rightButton);
+        mainPane2.getChildren().add(backButtonCarStart);
         mainPane2.getChildren().add(leftButton);
         mainPane2.getChildren().add(carTitle);
         CarrScene = new Scene(mainPane2, 1920, 1000);
         
     
-         
+         client = new ClientGui();
          
      }
      
    @Override
     public void start(Stage stage1) {
         
+        
+        
         stage1.setTitle("Motor Controller");
         stage1.setResizable(false);
         stage1.setScene(CarrScene);
         stage1.show();
+        
+        
         
         CarrScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
@@ -266,16 +296,24 @@ public class Car extends Application {
                 switch(event.getCode()){
                     
                     case UP:
+                        flag_key=true;
                         System.out.println("===up");
                         upButton.setStyle("-fx-content-display: graphic-only;");
-                        gauge.setValue((int)sliderSpeed/2.5);
-                        speedLabel.setText("" + (int)(sliderSpeed/2.5)  + "");
+                        
+                         if(motorspeed<sliderSpeed){
+                        motorspeed+=1;
+                        gauge.setValue((int)(motorspeed/2.5));
+                        speedLabel.setText("" + (int)(motorspeed/2.5)  + "");
+                        client.clientSendData(251);
+                        }
                         
                         
                         break;
                     case DOWN:
                         System.out.println("===Down");
                         backButton.setStyle("-fx-content-display: graphic-only;");
+                        
+                        client.clientSendData(252);
                        
                         break;
                         
@@ -283,34 +321,30 @@ public class Car extends Application {
                         System.out.println("===Left");
                         leftButton.setStyle("-fx-content-display: graphic-only;");
                       
+                        client.clientSendData(253);
                         break;
                        
                     case RIGHT:
                         System.out.println("===RIGHT");
                         rightButton.setStyle("-fx-content-display: graphic-only;");
-                        
+                        client.clientSendData(254);
                         break;
                   case  ENTER:
                           
                           if(sliderSpeed<250){
-                        sliderSpeed +=1; 
+                        sliderSpeed +=5; 
                         speedSlider.adjustValue(sliderSpeed);
-                        speedLabel.setText("" + (int)(sliderSpeed/2.5)  + "");
-                        gauge.setValue((int)sliderSpeed/2.5);
-                        
-                          }
+                        client.clientSendData(sliderSpeed);
+                       }
                         break;
                         
                       case  BACK_SPACE:
                           if(sliderSpeed>0){
-                        sliderSpeed -=1; 
+                        sliderSpeed -=5; 
                         speedSlider.adjustValue(sliderSpeed);
-                        speedLabel.setText("" + (int)(sliderSpeed/2.5)  + "");
-                        gauge.setValue((int)sliderSpeed/2.5);
-                        
+                        client.clientSendData(sliderSpeed);
                           }
                         break;
-                        
             }
                 
         }
@@ -319,19 +353,17 @@ public class Car extends Application {
        CarrScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
-           
+                
+                client.clientSendData(255);
                 switch(event.getCode()){
                     
                     case UP:
-                        
+                        flag_key=false;
                         System.out.println("===up");
                         upButton.setStyle("-fx-background-color: transparent;");
-                        gauge.setValue(0);
-                        speedLabel.setText("" + 0 + "");
+                        timer.start();
                         
-                       
-                        
-                    break;
+                   break;
 
                     case DOWN:
                         
@@ -353,32 +385,43 @@ public class Car extends Application {
                         rightButton.setStyle("-fx-background-color: transparent;");
 
                         break;
-                        
-                    case  ENTER:
-                          
-                        if(sliderSpeed<250){
-                        sliderSpeed +=1; 
-                        speedSlider.adjustValue(sliderSpeed);
-                        speedLabel.setText("" + (int)(sliderSpeed/2.5)  + "");
-                        gauge.setValue((int)sliderSpeed/2.5);
-                          }
-                        break;    
-
-             }
+                }
          }
   });
     
           // Speed Slider
         speedSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             sliderSpeed = newValue.intValue();
+            client.clientSendData(sliderSpeed);
+            
        });
     }
    public static void main(String[] args) {
         Application.launch(args);
     }
-   
-   
+    private class Timer extends AnimationTimer {
+
+        @Override
+        public void handle(long now) {
+
+            Handle();
+        }
+
+        private void Handle() {
+                        
+                         if( motorspeed==0 || flag_key==true ){
+                            flag_key=false;
+                             stop();
+                             return;
+                       }
+                        
+                        motorspeed-=1;
+                        gauge.setValue((int)( motorspeed/2.5));
+                        speedLabel.setText("" + (int)( motorspeed/2.5)  + "");
+                        
+                        
+           
+                        
+       }
     }
-
-
- 
+  }

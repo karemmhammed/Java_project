@@ -9,7 +9,7 @@
 			Osama Hamdy
  ********************************************************************/
 
-package guipack;
+package finaltest;
 
 
 
@@ -92,6 +92,7 @@ public class Connect {
      */
     public boolean checkConnection(){
        return comPort.openPort();
+       
     }
    
     
