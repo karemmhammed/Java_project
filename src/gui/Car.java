@@ -7,20 +7,14 @@ package finaltest;
 
 
 import eu.hansolo.medusa.Gauge;
-
 import eu.hansolo.medusa.skins.ModernSkin;
-
-
 import java.io.FileNotFoundException;
 import javafx.animation.AnimationTimer;
-
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
-
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,7 +25,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.ENTER;
 import javafx.scene.input.KeyEvent;
-
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -51,36 +44,41 @@ public class Car extends Application {
      Button backButtonCarStart;
      Image backButtonImgCar;
      ImageView backButtonImgViewCar;
-    
-    
-    
-    
-  //slider and label
      
+     // Labels
+    Image rightLabel;
+    ImageView rightLabelView;
+
+    Image leftLabel;
+    ImageView leftLabelView;
+
+    // Images
+    Image car;
+    ImageView carView;
+    
+    //slider and label
     Slider speedSlider;
     int sliderSpeed=0;
     Label speedLabel;
     
- //text for the title of the scene  
+    //text for the title of the scene  
     Text carTitle;
     
- //gauge to show the speed of car
+    //gauge to show the speed of car
     Gauge gauge;  
     
     
-  //button of control
+    //button of control
     Button backButton;
     Button upButton;
     Button rightButton;
     Button leftButton;
     
     // Background
- 
     Image mainBackgroundImg;
     ImageView mainBackgroundImgView;
     
     //button_images
-    
     Image up_arrow;
     ImageView up_arrow_View;
 
@@ -96,28 +94,33 @@ public class Car extends Application {
      Glow glow;
 
     // pane
-    
-       StackPane mainPane2;
+    StackPane mainPane2;
        
-  // Scene     
+    // Scene     
+    Scene CarrScene;
        
-       Scene CarrScene;
-       
-       
-       ClientGui client;
+    ClientGui client;
        
        
-     @Override
-     public void init() throws FileNotFoundException {
+    @Override
+    public void init() throws FileNotFoundException {
+        
+        // Images
+        car = new Image(getClass().getResourceAsStream("Images/Tesla.png"));
+        carView = new ImageView(car);
+        carView.setFitHeight(800);
+        carView.setFitWidth(800);
+        carView.setTranslateY(170);
+        
          
-         // Symbols
+        // Symbols
         backButtonImgCar = new Image(getClass().getResourceAsStream("Images/backButton.png"));
         backButtonImgViewCar = new ImageView(backButtonImgCar);
         backButtonImgViewCar.setFitHeight(50);
         backButtonImgViewCar.setFitWidth(50);
         
         
-         // Back Button From Car-Mode to Home
+        // Back Button From Car-Mode to Home
         backButtonCarStart = new Button();
         backButtonCarStart.setGraphic(backButtonImgViewCar);
         backButtonCarStart.setStyle("-fx-background-color: transparent;");
@@ -125,21 +128,32 @@ public class Car extends Application {
         backButtonCarStart.setTranslateX(-900);
         
         timer = new Timer();
-             
         
-         
-      //init of label
+        // Labels
+        leftLabel = new Image(getClass().getResourceAsStream("Images/left.png"));
+        leftLabelView = new ImageView(leftLabel);
+        leftLabelView.setFitHeight(600);
+        leftLabelView.setFitWidth(400);
+        leftLabelView.setTranslateX(550);
+        leftLabelView.setTranslateY(-80);
+
+        rightLabel = new Image(getClass().getResourceAsStream("Images/right.png"));
+        rightLabelView = new ImageView(rightLabel);
+        rightLabelView.setFitHeight(600);
+        rightLabelView.setFitWidth(400);
+        rightLabelView.setTranslateX(-550);
+        rightLabelView.setTranslateY(-80);
+
+        //init of label
         speedLabel = new Label("0");
         speedLabel.setTextFill(Color.WHITE);
-        speedLabel.setFont(Font.font("Arial", 100));
+        speedLabel.setFont(Font.font("Arial", 70));
         speedLabel.setCache(true);
         speedLabel.setEffect(glow);
-        speedLabel.setTranslateX(-500);
-        speedLabel.setTranslateY(-90);
+        speedLabel.setTranslateY(-190);
+        speedLabel.setTranslateX(-585);
         
         //init of slider 
-        
-         
         speedSlider = new Slider();
         speedSlider.setFocusTraversable(false);
         speedSlider.setStyle("-fx-focus-color: Red;");
@@ -153,12 +167,11 @@ public class Car extends Application {
         speedSlider.setMax(250);
         speedSlider.setValue(0);
         speedSlider.setShowTickMarks(true);
-        speedSlider.setMaxWidth(500);
-        speedSlider.setTranslateX(-500);
-        speedSlider.setTranslateY(296);
+        speedSlider.setMaxWidth(650);
+        speedSlider.setTranslateY(350);
         speedSlider.setEffect(glow);
         
-    // int of gauge to show the speed of car     
+        // int of gauge to show the speed of car     
         gauge = new Gauge();
         gauge.setSkin(new ModernSkin(gauge));
         gauge.setUnit("Rpm");  //unit
@@ -173,76 +186,77 @@ public class Car extends Application {
         gauge.setThresholdVisible(true);
         gauge.setTickLabelColor(Color.WHITE);
         gauge.setTickMarkColor(Color.WHITE);
-        gauge.setMaxSize(500, 500);
-        gauge.setTranslateX(-500);
-        gauge.setTranslateY(-100);
+        gauge.setMaxSize(250, 250);
+        gauge.setTranslateY(-190);
+        gauge.setTranslateX(-585);
         
       // init of images of buttons 
        
        
         down_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowDown.png"));
         down_arrow_View = new ImageView( down_arrow );
-        down_arrow_View.setFitHeight(200);
-        down_arrow_View.setFitWidth(200);
+        down_arrow_View.setFitHeight(80);
+        down_arrow_View.setFitWidth(80);
         
             
         up_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowUP.png"));
         up_arrow_View = new ImageView( up_arrow );
-        up_arrow_View.setFitHeight(200);
-        up_arrow_View.setFitWidth(200);
+        up_arrow_View.setFitHeight(80);
+        up_arrow_View.setFitWidth(80);
         
             
         right_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowRight.png"));
         right_arrow_View = new ImageView( right_arrow );
-        right_arrow_View.setFitHeight(200);
-        right_arrow_View.setFitWidth(200);
+        right_arrow_View.setFitHeight(80);
+        right_arrow_View.setFitWidth(80);
         
         
             
         left_arrow  = new Image(getClass().getResourceAsStream("Images/ArrowLeft.png"));
         left_arrow_View = new ImageView( left_arrow );
-        left_arrow_View.setFitHeight(200);
-        left_arrow_View.setFitWidth(200);
+        left_arrow_View.setFitHeight(80);
+        left_arrow_View.setFitWidth(80);
         
         glow = new Glow(3);
         
-     // control Buttons
-       
-        backButton = new Button("Back");
+        // control Buttons
+        backButton = new Button();
         backButton.setGraphic(down_arrow_View);
         backButton .setStyle("-fx-background-color: transparent;");
         backButton.setEffect(glow); 
-        backButton.setTranslateX(450);
-        backButton.setTranslateY(200);
-        backButton.setMaxHeight(150);
-        backButton.setMaxWidth(100);
+        backButton.setTranslateX(585);
+        backButton.setTranslateY(-100);
+        backButton.setMaxHeight(80);
+        backButton.setMaxWidth(80);
         
-        upButton = new Button("Up");
+        upButton = new Button();
         upButton.setGraphic(up_arrow_View);
         upButton.setStyle("-fx-background-color: transparent;");
         upButton.setEffect(glow);
-        upButton.setTranslateX(450);
-        upButton.setTranslateY(-200);
-        upButton.setMaxHeight(150);
-        upButton.setMaxWidth(100);
+        upButton.setTranslateX(585);
+        upButton.setTranslateY(-280);
+        upButton.setMaxHeight(80);
+        upButton.setMaxWidth(80);
         
-        rightButton = new Button("Right");
+        rightButton = new Button();
         rightButton.setGraphic(right_arrow_View);
         rightButton.setStyle("-fx-background-color: transparent;");
         rightButton.setEffect(glow);
-        rightButton.setTranslateX(650);
-        rightButton.setMaxHeight(150);
-        rightButton.setMaxWidth(100);
+        rightButton.setTranslateX(680);
+        rightButton.setTranslateY(-189);
+        rightButton.setMaxHeight(80);
+        rightButton.setMaxWidth(80);
         
-        leftButton = new Button("Left");
+        leftButton = new Button();
         leftButton.setGraphic(left_arrow_View);
         leftButton.setStyle("-fx-background-color: transparent;");
         leftButton.setEffect(glow);
-        leftButton.setTranslateX(250);
-        leftButton.setMaxHeight(150);
-        leftButton.setMaxWidth(100);
+        leftButton.setTranslateX(495);
+        leftButton.setTranslateY(-189);
+        leftButton.setMaxHeight(80);
+        leftButton.setMaxWidth(80);
         
-           // Car Title
+        // Car Title
         carTitle = new Text("CAR CONTROLLER");
         carTitle.setFont(Font.font("Verdana", 45));
         carTitle.setFill(Color.WHITE);
@@ -250,8 +264,7 @@ public class Car extends Application {
         carTitle.setEffect(glow);
         
    
-         // init the back ground 
-         
+        // init the back ground    
         mainBackgroundImg  = new Image(getClass().getResourceAsStream("Images/mainBackground.png"));
         mainBackgroundImgView = new ImageView(mainBackgroundImg);
         mainBackgroundImgView.setFitHeight(1000);
@@ -260,6 +273,8 @@ public class Car extends Application {
         // init pane
         mainPane2 = new StackPane();
         mainPane2.getChildren().add(mainBackgroundImgView);
+        mainPane2.getChildren().add(rightLabelView);
+        mainPane2.getChildren().add(leftLabelView);
         mainPane2.getChildren().add(gauge);
         mainPane2.getChildren().add(speedSlider);
         mainPane2.getChildren().add(speedLabel);
@@ -269,10 +284,11 @@ public class Car extends Application {
         mainPane2.getChildren().add(backButtonCarStart);
         mainPane2.getChildren().add(leftButton);
         mainPane2.getChildren().add(carTitle);
+        mainPane2.getChildren().add(carView);
         CarrScene = new Scene(mainPane2, 1920, 1000);
         
     
-         client = new ClientGui();
+        client = new ClientGui();
          
      }
      
