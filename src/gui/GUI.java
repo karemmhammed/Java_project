@@ -11,7 +11,7 @@
  ********************************************************************/
 
 
-package finaltest;
+package gui;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -61,10 +61,19 @@ public class GUI extends Application {
     /******************** Variables Declarations ********************/
     /****************************************************************/
     
-    
+    //alert of lost connection 
+    Alert alertOFconnection = new Alert(Alert.AlertType.CONFIRMATION);
     
    
+    
+
+    
+    
+ 
+   // ref for car class
     Car car;
+    
+    
     /*****************************/
     /* Flags & Numeric Variables */
     /*****************************/
@@ -309,6 +318,9 @@ public class GUI extends Application {
     // Connection class
     Connect connection;
     
+    
+    Thread backGroundSerial;
+    Thread wifi;
     //----------------------------------------------------------------
     
     /****************************************************************/
@@ -318,8 +330,12 @@ public class GUI extends Application {
     @Override
     public void init() throws FileNotFoundException{
         
-        
-       
+      // connection lost alertOFconnection   
+      
+    alertOFconnection.setContentText("check your connection and press ok to reconnect or cancel to exit program."); 
+    alertOFconnection.setTitle("System");
+   alertOFconnection.setHeaderText("Connection Lost!");
+    
         
         /*****************************/
         /* Flags & Numeric Variables */
@@ -335,13 +351,13 @@ public class GUI extends Application {
 	/***********/
         /* Music*/
         /***********/
-        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
+        uriString2 = new File("Music/anti.mp3").toURI().toString();
         player2 = new MediaPlayer(new Media(uriString2));
        
-        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
+        uriString3 = new File("Music/clockwise.mp3").toURI().toString();
         player3 = new MediaPlayer(new Media(uriString3));
        
-        uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
+        uriString1 = new File("Music/speed2.mp3").toURI().toString();
         player1 = new MediaPlayer(new Media(uriString1));
 		
    
@@ -353,6 +369,7 @@ public class GUI extends Application {
         /***********************/
         
         // Glow
+        
         glow = new Glow(3);
         
         //----------------------------------------------------------------
@@ -382,12 +399,10 @@ public class GUI extends Application {
         /***********/
         bar = new MenuBar();
         settings = new Menu("Settings");
-        
         exit = new MenuItem("Exit");
-        
         sound = new MenuItem("Mute sound");
         sound1 = new MenuItem("UnMute sound");
-	settings.getItems().addAll(sound,sound1,exit);
+        settings.getItems().addAll(sound, sound1, exit);
         bar.getMenus().addAll(settings);
         bar.setTranslateY(-485);
         bar.setTranslateX(0);
@@ -471,7 +486,7 @@ public class GUI extends Application {
         startGifImgView3.setTranslateY(260);
         startGifImgView3.setEffect(glow);
         
-        greetingGifImg  = new Image(getClass().getResourceAsStream("Images/greeting.gif"));
+        greetingGifImg  = new Image(getClass().getResourceAsStream("Images/main.png"));
         greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
@@ -686,7 +701,7 @@ public class GUI extends Application {
         // Direction Status Label
         dirStatusLabel = new Label("Clockwise");
         dirStatusLabel.setTextFill(Color.rgb(233,16,94));
-        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 40));
+        dirStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("Fonts/body.ttf")), 40));
         dirStatusLabel.setTextAlignment(TextAlignment.CENTER); 
         dirStatusLabel.setTranslateX(-645);
         dirStatusLabel.setTranslateY(-150);
@@ -696,7 +711,7 @@ public class GUI extends Application {
         // ON/OFF Status Label
         onoffStatusLabel = new Label("OFF");
         onoffStatusLabel.setTextFill(Color.rgb(233,16,94));
-        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Fonts\\body.ttf")), 40));
+        onoffStatusLabel.setFont(Font.loadFont(new FileInputStream(new File("Fonts/body.ttf")), 40));
         onoffStatusLabel.setTextAlignment(TextAlignment.CENTER);
         onoffStatusLabel.setTranslateX(-645);
         onoffStatusLabel.setTranslateY(110);
@@ -784,7 +799,8 @@ public class GUI extends Application {
         //----------------------------------------------------------------
         car = new Car();
         car.init();
-        connection = new Connect();
+        
+        
     }
           
     /****************************************************************/
@@ -793,6 +809,9 @@ public class GUI extends Application {
     
     @Override
     public void start(Stage stage) {
+        
+        
+        
         
         
         
@@ -820,6 +839,7 @@ public class GUI extends Application {
             stage.setScene(motorScene);
             stage.show();
             modesFlag=1;
+            connection = new Connect();
             connectionTask();
         });
       
@@ -832,15 +852,9 @@ public class GUI extends Application {
         
         // Car Button
         carButton.setOnAction((ActionEvent event) -> {
-            
-            modesFlag=2;
-            
-       
-           
+            modesFlag = 2;
             car.client = new ClientGui();
-            
             car.start(stage);
-            
             stage.setScene(car.CarrScene);
             stage.show();
             
@@ -848,145 +862,130 @@ public class GUI extends Application {
         
         // Back Button
         backButtonMotorStart.setOnAction((ActionEvent event) -> {
+            
             stage.setScene(startScene);
             stage.show();
-            
-            
-           /* connection.motorDirectionArduino(false);
+            connection.motorDirectionArduino(false);
             connection.motorStateArduino(false);
             connection.sendData(0);                             // PWM zero*/
-            
-               /* try {
-                    connection.out.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            System.out.println(connection.comPort.closePort());*/
-            
-            
-           
-            
-            
+            gauge.setValue(0);
+            speedSlider.setValue(0);
+            onoffStatusLabel.setText("OFF");
+            dirStatusLabel.setText("Clockwise");
+
+            try {
+                connection.out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println(connection.comPort.closePort());
+            backGroundSerial.stop();
+
         });
         
+        // back button of car gui 
+     
         car.backButtonCarStart.setOnAction((ActionEvent event) -> {
             stage.setScene(startScene);
             stage.show();
-            
             car.client.clientSendData(0);
             car.client.clientSendData(255);
-            
             car.client.ps.close();
-               
+            car.speedSlider.setValue(0);
+
             try {
                 car.client.mySocket.close();
             } catch (IOException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-               
-            
+
         });
         
-        // Back Button 2
+        // Back Button of about scene
         backButtonAboutStart.setOnAction((ActionEvent event) -> {
             stage.setScene(startScene);
             stage.show();
         });
         
-        // Back Button From Car-Mode 
-       /* backButtonCarStart.setOnAction((ActionEvent event) -> {
-            stage.setScene(startScene);
-            stage.show();
-        });*/
+       
         
         // ON/OFF Button
-        onoffButton.setOnAction((ActionEvent event) -> {
-            if(motorMode==false)
-            {
+               onoffButton.setOnAction((ActionEvent event) -> {
+            if (motorMode == false) {
                 motorMode = true;
                 onoffStatusLabel.setText("ON");
-                
+
                 wheelRotate.play();
-                if(motorDirection==false)
-                {
+                if (motorDirection == false) {
                     directionRotate1.play();
                     directionRotate2.stop();
-                }
-                else
-                {
+                } else {
                     directionRotate2.play();
                     directionRotate1.stop();
                 }
-                    
-            }
-            else
-            {
+
+            } else {
                 motorMode = false;
                 onoffStatusLabel.setText("OFF");
                 wheelRotate.stop();
                 directionRotate1.stop();
                 directionRotate2.stop();
-                
-               
+
             }
             connection.motorStateArduino(motorMode);
-            
+
         });
         
         // Direction1 (Clockwise) Button
-        dir1Button.setOnAction((ActionEvent event) -> {
-        player3.stop();
-     
-        uriString3 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\clockwise.mp3").toURI().toString();
-        player3 = new MediaPlayer(new Media(uriString3));
-        
-            if(motorDirection==true)
-            {
+              dir1Button.setOnAction((ActionEvent event) -> {
+            player3.stop();
+
+            uriString3 = new File("Music/clockwise.mp3").toURI().toString();
+            player3 = new MediaPlayer(new Media(uriString3));
+
+            if (motorDirection == true) {
                 motorDirection = false;
+                
                 dirStatusLabel.setText("Clockwise");
                 directionRotate1.play();
                 directionRotate2.stop();
-                
                 connection.motorDirectionArduino(motorDirection);
-            }
-            else
-            {
+
+                
+            } else {
                 // Do Nothing
             }
-              if(Flag_Mute== false){ 
-                    player1.stop(); 
-                    player2.stop(); 
-                    player3.play();
-                }
+            if (Flag_Mute == false) {
+                player1.stop();
+                player2.stop();
+                player3.play();
+            }
         });
-        
+
          // Direction2 (Anti-Clockwise) Button
+         
         dir2Button.setOnAction((ActionEvent event) -> {
-            
-        player2.stop();
-        uriString2 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\anti.mp3").toURI().toString();
-        player2 = new MediaPlayer(new Media(uriString2));
-        
-      
-            if(motorDirection==false)
-            {
+
+            player2.stop();
+            uriString2 = new File("Music/anti.mp3").toURI().toString();
+            player2 = new MediaPlayer(new Media(uriString2));
+
+            if (motorDirection == false) {
                 motorDirection = true;
+                
                 dirStatusLabel.setText("Anti-Clockwise");
                 directionRotate1.stop();
                 directionRotate2.play();
-                
                 connection.motorDirectionArduino(motorDirection);
-            }
-            
-            else
-            {
+
+               
+            } else {
                 // Do Nothing
             }
-            
-            if(Flag_Mute== false)
-            { 
-                player3.stop(); 
-                player1.stop(); 
+
+            if (Flag_Mute == false) {
+                player3.stop();
+                player1.stop();
                 player2.play();
             }
         });
@@ -1012,11 +1011,11 @@ public class GUI extends Application {
 	 // EXIT ALERT
         
         exit.setOnAction((ActionEvent event) -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation message");
-            alert.setHeaderText("Exit!");
-            alert.setContentText("Are you sure you want to Exit this app?");
-            Optional<ButtonType> result = alert.showAndWait();
+            Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert1.setTitle("Confirmation message");
+            alert1.setHeaderText("Exit!");
+            alert1.setContentText("Are you sure you want to Exit this app?");
+            Optional<ButtonType> result = alert1.showAndWait();
             if (result.get() == ButtonType.OK){
                 stage.close();
             }
@@ -1036,7 +1035,7 @@ public class GUI extends Application {
             gauge.setValue(motorSpeed);
             wheelRotate.setRate(motorSpeed);
             
-            uriString1 = new File("C:\\Users\\ahmed\\Documents\\ITI_9Month_Diploma\\Technical\\5.JAVA\\Final Project\\Attachments\\Music\\speed2.mp3").toURI().toString();
+            uriString1 = new File("Music/speed2.mp3").toURI().toString();
             player1 = new MediaPlayer(new Media(uriString1));
             
             if(motorSpeed>85)
@@ -1059,8 +1058,6 @@ public class GUI extends Application {
                     player2.stop(); 
                     player1.play();
                 }
-                                    
-                   
             }
         
             else if (motorSpeed<=85)
@@ -1086,9 +1083,8 @@ public class GUI extends Application {
             car.client.clientSendData(0);
             car.client.clientSendData(255);
             }
-            
-        });
-
+       });
+       
   //----------------------------------------------------------------
         
         /*****************/
@@ -1103,52 +1099,55 @@ public class GUI extends Application {
         //----------------------------------------------------------------
         
     }
+    
 
+  // connection lost handle  
     
-    
-    
-    public void connectionTask(){
+    public void connectionTask() {
         Runnable task = () -> {
-            while(true){
+            while (true) {
                 runTask();
             }
         };
-        Thread backGround = new Thread(task);
-        backGround.start();
+        backGroundSerial = new Thread(task);
+        backGroundSerial.start();
     }
-    
-    public void runTask(){
-        
 
-        while(connection.checkConnection()){
-            
+    public void runTask() {
+
+        while (connection.checkConnection()) {
+
         }
-        
+
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Connection Lost");
-            alert.showAndWait();
-            connection = new Connect();
+
+            Optional<ButtonType> result = alertOFconnection.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                connection = new Connect();
+            } else if(result.get() == ButtonType.CANCEL){
+                System.exit(modesFlag);
+             }
+            else{}
+
         });
-        
-        while(!connection.checkConnection()){
-            
+
+        while (!connection.checkConnection()) {
+
         }
-       
-        
         try {
             Thread.sleep(200);
         } catch (InterruptedException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-                 connection.motorDirectionArduino(motorDirection);
-                 connection.motorStateArduino(motorMode);
-                 connection.sendData(sliderSpeed);
-          
-        
+
+        connection.motorDirectionArduino(motorDirection);
+        connection.motorStateArduino(motorMode);
+        connection.sendData(sliderSpeed);
+      
     }
     
+   
+
     private class Timer extends AnimationTimer {
 
         @Override
@@ -1158,20 +1157,16 @@ public class GUI extends Application {
         }
 
         private void Handle() {
-            
+
             warningSignOpacity -= 0.02;
             warningImgView.opacityProperty().set(warningSignOpacity);
-            
-            
-            if (motorSpeed<=85)
-            {
+
+            if (motorSpeed <= 85) {
                 stop();
             }
-            
-            if (warningSignOpacity <= 0.2) 
-            {
-                while (warningSignOpacity <= 1)
-                {
+
+            if (warningSignOpacity <= 0.2) {
+                while (warningSignOpacity <= 1) {
                     warningSignOpacity += 0.02;
                 }
             }
@@ -1188,3 +1183,4 @@ public class GUI extends Application {
     }
     
 }
+

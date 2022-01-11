@@ -2,8 +2,8 @@
 #include <ESP8266WiFi.h>
 
 
-#define int1 D3
-#define int2 D2
+#define int1 D2
+#define int2 D1
 #define int3 D5
 #define int4 D6
 #define en1 D7
@@ -27,8 +27,8 @@ int Car_State=Car_Stop;
 char PWM = 0;
 
 
-const char* ssid = "hassan";
-const char* password = "33141018";
+const char* ssid = "Ahmed";
+const char* password = "Ahmed66542";
 
 
 WiFiServer server(80);

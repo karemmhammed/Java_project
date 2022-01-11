@@ -9,7 +9,7 @@
 			Osama Hamdy
  ********************************************************************/
 
-package finaltest;
+package gui;
 
 
 
@@ -17,8 +17,10 @@ import com.fazecast.jSerialComm.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.ButtonType;
 
 
 
@@ -29,6 +31,8 @@ import java.util.logging.Logger;
  * the serial communication , sending and receving data.
  */
 public class Connect {
+    
+    GUI ref = new GUI();
     
   /****************************************************************/
   /******************** Variables Declarations ********************/
@@ -79,7 +83,7 @@ public class Connect {
 	 *
      */
     public Connect(){
-        comPort = SerialPort.getCommPort("COM5");
+        comPort = SerialPort.getCommPort("COM10");
         comPort.openPort();
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
      
@@ -135,12 +139,21 @@ public class Connect {
      *
      */
     public void sendData(int data){
+        ref.alertOFconnection.setContentText("check your connection and press ok to reconnect or cancel to exit program.");
+        ref.alertOFconnection.setTitle("System");
+        ref.alertOFconnection.setHeaderText("Connection Lost!");
         out = comPort.getOutputStream();
         try {
             out.write(data);
             out.close();
         } catch (IOException ex) {
-            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+             Optional<ButtonType> result = ref.alertOFconnection.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                ref.connection = new Connect();
+            } else if(result.get() == ButtonType.CANCEL){
+                System.exit(ref.modesFlag);
+             }
+            else{}
            
             
         }
@@ -155,13 +168,22 @@ public class Connect {
      *
      */
     public int readData(){
+        ref.alertOFconnection.setContentText("check your connection and press ok to reconnect or cancel to exit program.");
+        ref.alertOFconnection.setTitle("System");
+        ref.alertOFconnection.setHeaderText("Connection Lost!");
         int data = 0;
         comPort.getInputStream();
         try {
            data= in.read();
            in.close();
         } catch (IOException ex) {
-            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+            Optional<ButtonType> result = ref.alertOFconnection.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                ref.connection = new Connect();
+            } else if(result.get() == ButtonType.CANCEL){
+                System.exit(ref.modesFlag);
+             }
+            else{}
         }
        
      return data;   
