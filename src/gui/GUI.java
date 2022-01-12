@@ -486,7 +486,7 @@ public class GUI extends Application {
         startGifImgView3.setTranslateY(260);
         startGifImgView3.setEffect(glow);
         
-        greetingGifImg  = new Image(getClass().getResourceAsStream("Images/main.png"));
+        greetingGifImg  = new Image(getClass().getResourceAsStream("Images/greeting.gif"));
         greetingGifImgView = new ImageView(greetingGifImg);
         
         // About Text Label
